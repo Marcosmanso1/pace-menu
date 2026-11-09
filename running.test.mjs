@@ -1,0 +1,12 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {parseTime,vdot,raceSeconds,WORKOUTS,workoutMetrics} from './running.ts';
+const score=vdot(5000,1200);
+const metrics=id=>workoutMetrics(WORKOUTS.find(w=>w.id===id),score);
+test('race-performance reference points',()=>{assert.ok(Math.abs(score-49.8)<.1);assert.ok(Math.abs(vdot(42195,10800)-53.5)<.2);assert.ok(Math.abs(raceSeconds(score,10000)-2488)<3)});
+test('time input rejects malformed seconds and zero duration',()=>{assert.equal(parseTime('1:23:22'),5002);assert.equal(parseTime('20:00'),1200);for(const t of ['20:60','1:60:00','','-20:00','text','0:00'])assert.equal(parseTime(t),null)});
+test('ladder sums all distances and omits recovery after the last rep',()=>{assert.equal(metrics('5d').workMeters,3600);assert.equal(metrics('5d').recoverySeconds,450)});
+test('mixed speed session counts within-set and between-set recoveries',()=>{assert.equal(metrics('5f').workMeters,3800);assert.equal(metrics('5f').recoverySeconds,780)});
+test('easy floats count in main-set distance but not quality distance',()=>{assert.equal(metrics('he').workMeters,7000);assert.equal(metrics('he').qualityMeters,5000);assert.equal(metrics('he').recoverySeconds,0);assert.equal(metrics('mc').workMeters,11000);assert.equal(metrics('mc').qualityMeters,6000)});
+test('fast-finish main set lasts 80 minutes, without added inter-block recovery',()=>{assert.equal(metrics('md').workSeconds,4800);assert.equal(metrics('md').recoverySeconds,0)});
+test('every target race has its own distinct sessions',()=>{const sets=['mile','5k','10k','half','marathon'].map(goal=>new Set(WORKOUTS.filter(w=>w.goals.includes(goal)&&w.category==='specific').map(w=>w.id)));for(const set of sets)assert.ok(set.size>=4);for(let i=0;i<sets.length;i++)for(let j=i+1;j<sets.length;j++)assert.equal([...sets[i]].filter(id=>sets[j].has(id)).length,0)});
