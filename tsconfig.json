@@ -16,6 +16,7 @@
   },
   "include": [
     "*.tsx",
-    "running.ts"
+    "running.ts",
+    "assets.d.ts"
   ]
 }

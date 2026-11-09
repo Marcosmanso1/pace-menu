@@ -1,7 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {parseTime,vdot,raceSeconds,WORKOUTS,workoutMetrics,workoutBlocks,blockMetrics,recoveryDuration,transitionDuration,paceRange} from './running.ts';
-import {SOURCES,SESSION_NOTES} from './research.ts';
+import {parseTime,vdot,raceSeconds,WORKOUTS,workoutMetrics,workoutBlocks,blockMetrics,recoveryDuration,transitionDuration,paceRange,prescription,recoveryLabel,distanceLabel,localizeCue} from './running.ts';
 const score=vdot(5000,1200);
 const get=id=>WORKOUTS.find(w=>w.id===id);
 const metrics=id=>workoutMetrics(get(id),score);
@@ -48,16 +47,40 @@ test('full-run simulations do not receive duplicate warm-up and cool-down',()=>{
 test('the advanced 10K rehearsal preserves 5-minute recovery',()=>{
  assert.equal(metrics('10c').workMeters,9000);assert.equal(metrics('10c').recoverySeconds,600);assert.equal(get('10c').level,'Demanding');
 });
-test('every fixed workout has source notes and valid alternative links',()=>{
- const ids=new Set(WORKOUTS.map(w=>w.id)),sourceIds=new Set(SOURCES.map(s=>s.id));
- assert.equal(ids.size,WORKOUTS.length);assert.equal(sourceIds.size,SOURCES.length);
- for(const w of WORKOUTS){const n=SESSION_NOTES[w.id];assert.ok(n,`Missing attribution: ${w.id}`);assert.ok(n.why&&n.when&&n.progression&&n.sourceNote);for(const ref of n.sources)assert.ok(sourceIds.has(ref),ref);if(n.timedAlternative)assert.ok(ids.has(n.timedAlternative));}
- for(const s of SOURCES)assert.equal(new URL(s.url).protocol,'https:');
+test('the expanded catalogue has valid IDs and exclusively metric-native definitions',()=>{
+ assert.equal(WORKOUTS.length,128);assert.equal(new Set(WORKOUTS.map(w=>w.id)).size,128);
+ for(const w of WORKOUTS){assert.ok(!/mile|kilomet|\bkm\b/i.test(w.name),w.name);for(const b of workoutBlocks(w))if(b.meters)assert.equal(Number.isInteger(b.meters),true,w.id);}
 });
 test('race menus have genuinely distinct core sessions',()=>{
  const goals=['mile','5k','10k','half','marathon'];const sets=goals.map(g=>new Set(WORKOUTS.filter(w=>w.goals.includes(g)&&w.category==='specific').map(w=>w.id)));
- for(const s of sets)assert.ok(s.size>=6);for(let i=0;i<sets.length;i++)for(let j=i+1;j<sets.length;j++)assert.equal([...sets[i]].filter(x=>sets[j].has(x)).length,0);
+ for(const s of sets)assert.ok(s.size>=20);for(let i=0;i<sets.length;i++)for(let j=i+1;j<sets.length;j++)assert.equal([...sets[i]].filter(x=>sets[j].has(x)).length,0);
 });
 test('every session and source recovery is finite at the supported fitness extremes',()=>{
  for(const v of [15,30,50,75,95])for(const w of WORKOUTS){const m=workoutMetrics(w,v);for(const x of [m.workMeters,m.workSeconds,m.recoverySeconds,m.qualitySeconds,m.totalSeconds,m.longestRepSeconds])assert.ok(Number.isFinite(x)&&x>=0,`${w.id}: ${v}`);assert.ok(m.workMeters>0&&m.workSeconds>0&&m.totalSeconds>=m.workSeconds);assert.ok(m.qualityMeters<=m.workMeters+.001);for(const b of workoutBlocks(w)){assert.ok((b.meters===undefined)!==(b.seconds===undefined));assert.ok(b.reps>0);assert.ok(recoveryDuration(b,v)>=0);}}
+});
+
+test('all visible distance helpers follow the selected unit',()=>{
+ assert.equal(distanceLabel(400,'km'),'0.4 km');assert.equal(distanceLabel(1600,'km'),'1.6 km');assert.equal(distanceLabel(1609.344,'mi'),'1 mi');
+ for(const w of WORKOUTS){for(const unit of ['km','mi']){const text=[prescription(w,unit),recoveryLabel(w,unit),localizeCue(w.cue,unit)].join(' ');assert.ok(!(unit==='km'?/\bmi(?:les?)?\b/i:/\bkm\b/i).test(text),`${w.id} ${unit}: ${text}`);}}
+ assert.match(prescription(get('mx'),'km'),/2 × 8 km/);assert.match(prescription(get('ms'),'km'),/10 km/);
+ assert.equal(recoveryLabel(get('10a'),'km'),'0.4 km jog');
+});
+test('pace offsets in execution cues convert with pace units',()=>{
+ assert.equal(localizeCue('Run 6 sec/km faster for 2 km.','mi'),'Run 9.7 sec/mi faster for 1.243 mi.');
+});
+test('compact summaries retain the full written running dose',()=>{
+ for(const w of WORKOUTS.filter(w=>w.summarySteps)){const sets=w.summarySets??1;let meters=0,seconds=0,actualMeters=0,actualSeconds=0;
+ for(const b of w.summarySteps){meters+=(b.meters??0)*b.reps*sets;seconds+=(b.seconds??0)*b.reps*sets;}
+ for(const b of workoutBlocks(w)){actualMeters+=(b.meters??0)*b.reps;actualSeconds+=(b.seconds??0)*b.reps;}
+ assert.equal(meters,actualMeters,`${w.id} distance`);assert.equal(seconds,actualSeconds,`${w.id} time`);
+ if(w.summarySets)assert.equal(workoutBlocks(w).length%w.summarySets,0,w.id);
+ }
+});
+test('new continuous alternations and walking recoveries preserve their intent',()=>{
+ const h=metrics('halfX10');assert.equal(h.workMeters,9600);assert.equal(h.qualityMeters,9600);assert.equal(h.recoverySeconds,0);
+ assert.equal(get('tenX13').recoveryType,'walk');assert.equal(metrics('tenX13').recoverySeconds,480);
+ assert.equal(metrics('xm16').workSeconds,4500);assert.equal(metrics('xm16').totalSeconds,6000);
+});
+test('all final blocks omit a trailing recovery',()=>{
+ for(const w of WORKOUTS.filter(w=>w.blocks)){const last=w.blocks.at(-1);assert.ok(!last.after&&!last.afterMeters,w.id);}
 });

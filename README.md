@@ -1,18 +1,16 @@
 # Pace Menu
 
-A focused running-workout library paced to a recent race result.
+A focused running-session menu based on current race fitness.
 
-Enter a race distance and finish time to estimate VDOT. Choose a target distance, then explore race-specific sessions and a curated set of supporting workouts. Every session includes its purpose, pacing, splits, recovery and main-set volume.
+[Open the website](https://marcosmanso1.github.io/pace-menu/)
 
-## Website
+Enter a recent race result, estimate VDOT, and explore key sessions for your race. There are **108 dedicated key sessions** plus **20 supporting sessions**. The dedicated menus contain 20 sessions for 1500 m / mile, 21 for 5K, 21 for 10K, 22 for half marathon and 24 for marathon.
 
-[Open Pace Menu](https://marcosmanso1.github.io/pace-menu/)
+The interface focuses on finding and executing workouts: race selection, focus, session load, total duration, search and sorting. Each detail view contains the calculated prescription, a session profile, exact block paces, rep splits, recoveries and easy preparation. Research and rationale pages are intentionally absent from the product.
 
-Hosted by GitHub Pages from the `main` branch, repository root. No server, API keys, account creation, database or ChatGPT subscription is needed to use the website.
+## Units
 
-The library contains 53 fixed workouts, with distinct menus for 1500 m / mile, 5K, 10K, half marathon and marathon. Race menus lead with their own sessions, followed by selected foundations. Each session has a proportional workout timeline, preparation, pacing, recovery, coaching rationale, progression context and direct source notes. This is a workout menu, not an automatically prescribed weekly training plan.
-
-The research register contains 32 reviewed publications: coaching manuals, first-hand workout guidance and original studies. Adaptations are identified for each session. These sources inform the selection; they do not establish a universally best workout. See [RESEARCH.md](RESEARCH.md) for the full register and editorial decisions.
+Distances are metric-native numbers. Selecting km or mi changes the prescription, block distances, recovery distances, totals, pace values and distance-bearing execution cues. Numeric summaries are generated from the same structured data that drives calculations. The two older imperial marathon examples have been deliberately rounded into metric sessions. No hardcoded imperial workout prescription is displayed in km mode.
 
 ## Development
 
@@ -23,29 +21,27 @@ npm ci
 npm run dev
 ```
 
-Before publishing changes:
+Before publishing:
 
 ```sh
 npm test
 npm run build
 ```
 
-Commit the handwritten source and generated `index.html`, `app-*.js` and `app-*.css` together. GitHub Pages publishes the committed output automatically.
+The build runs TypeScript and prepares GitHub Pages output in the repository root. Commit handwritten source and generated index.html / app-* assets together. GitHub Pages hosts the main branch, root directory. No server, database, API keys or account is required.
 
-- `App.tsx` — calculator, race filters and workout detail interface.
-- `running.ts` — performance equations and fixed workout definitions.
-- `research.ts` — source register and rationale / attribution for all 53 sessions.
-- `RESEARCH.md` — evidence review and editorial decisions.
-- `styles.css` — responsive layout and accessibility styles.
-- `main.tsx` and `development.html` — local development entry.
-- `build.mjs` — type-check, build and prepare the static website.
+- App.tsx: calculator, filters, cards and streamlined session view.
+- running.ts: race-performance model, unit helpers and 128 structured sessions.
+- styles.css: responsive visual system and reduced-motion support.
+- running.test.mjs: performance, unit conversion, summary consistency and recovery checks.
+- running-campaign-male.webp: optimized original campaign visual.
+- ASSETS.md: image provenance.
+- CATALOGUE-REVIEW.md: internal research and adaptation ledger, outside the browser bundle.
 
-All files are deliberately in one directory so the complete project can also be uploaded through GitHub's file-upload interface.
+## Calculation assumptions
 
-## Calculation notes
+VDOT uses the Daniels–Gilbert performance equations. It is a performance estimate, not measured VO2max. Equivalent results assume event-specific preparation and comparable conditions. These training estimates do not reproduce licensed VDOT tables. The sub-threshold bands are estimates rather than measured lactate response.
 
-VDOT uses the Daniels–Gilbert performance equations. Race equivalents assume comparable preparation and conditions. The training pace estimates are not a reproduction of the official licensed VDOT tables. Sub-threshold estimates cannot determine an individual lactate threshold. Main-set totals include written easy floats, and timed rests are counted only between repetitions or blocks. Detailed assumptions and coaching references are linked in the website. Duration prompts are editorial comparisons to help choose a dose; they are not physiological limits or a personal readiness assessment.
+All non-easy running counts towards quality volume, including steady floats. Written easy floats count towards the main set but not quality. Recoveries appear only between efforts. Estimated total time includes separate easy preparation unless it is already embedded. A race result sets the pace, not personal readiness for a demanding workload.
 
-The automated checks cover the performance equations, distance and time recovery, multi-pace sets, embedded warm-ups, source coverage, and numerical behaviour throughout the supported VDOT range. The production build also runs TypeScript checks.
-
-Entered results are calculated locally in the browser and are not collected or stored.
+Race inputs are calculated locally and are not collected or stored.

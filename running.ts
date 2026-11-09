@@ -43,7 +43,8 @@ export function formatTime(seconds:number):string {
 export type Category='easy'|'sub'|'threshold'|'vo2'|'speed'|'specific';
 export type PaceKey='easy'|'subShort'|'subMedium'|'subLong'|'threshold'|'interval'|'repetition'|'5k'|'10k'|'half'|'marathon'|'1500'|'3k';
 export type WorkBlock={reps:number;meters?:number;seconds?:number;pace:PaceKey;recovery:number;recoveryMeters?:number;recoveryRatio?:number;after?:number;afterMeters?:number;paceOffset?:number};
-export type Workout={recoveryMeters?:number;recoveryRatio?:number;blocks?:WorkBlock[];prescription?:string;recoverySummary?:string;warmup?:number;cooldown?:number;id:string;name:string;category:Category;goals:string[];reps:number;meters?:number;seconds?:number;pace:PaceKey;recovery:number;recoveryType:string;level:'Light'|'Standard'|'Demanding';purpose:string;cue:string;note?:string};
+export type SummaryStep={reps:number;meters?:number;seconds?:number;pace?:PaceKey};
+export type Workout={focus?:string;summarySteps?:SummaryStep[];summarySets?:number;recoveryMeters?:number;recoveryRatio?:number;blocks?:WorkBlock[];prescription?:string;recoverySummary?:string;warmup?:number;cooldown?:number;id:string;name:string;category:Category;goals:string[];reps:number;meters?:number;seconds?:number;pace:PaceKey;recovery:number;recoveryType:string;level:'Light'|'Standard'|'Demanding';purpose:string;cue:string;note?:string};
 export const CATEGORIES:{id:Category|'all';label:string;color:string}[]=[
  {id:'all',label:'All workouts',color:'#62645c'},
  {id:'sub',label:'Sub-threshold',color:'#8c9c31'},
@@ -55,6 +56,90 @@ export const CATEGORIES:{id:Category|'all';label:string;color:string}[]=[
 ];
 const all=['mile','5k','10k','half','marathon'];
 export const WORKOUTS:Workout[]=[
+  {
+    "id": "m1",
+    "name": "Relaxed race rhythm",
+    "category": "specific",
+    "goals": [
+      "mile"
+    ],
+    "pace": "repetition",
+    "reps": 8,
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Light",
+    "purpose": "Fast running with room to stay relaxed.",
+    "cue": "Let form dictate recovery. Take longer if you cannot repeat the same smooth mechanics.",
+    "meters": 200,
+    "recoveryMeters": 200,
+    "focus": "Race rhythm"
+  },
+  {
+    "id": "5a",
+    "name": "The rhythm builder",
+    "category": "specific",
+    "goals": [
+      "5k"
+    ],
+    "pace": "5k",
+    "reps": 10,
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "purpose": "Accumulate race-pace distance in short pieces.",
+    "cue": "Keep the same race rhythm throughout, with an easy jog between efforts.",
+    "meters": 400,
+    "recoveryMeters": 200
+  },
+  {
+    "id": "10a",
+    "name": "Measured race repeats",
+    "category": "specific",
+    "goals": [
+      "10k"
+    ],
+    "pace": "10k",
+    "reps": 5,
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "purpose": "Settle into an even, measurable 10K rhythm.",
+    "cue": "Keep the recovery as the written distance; jog it easily without chasing a time.",
+    "meters": 1000,
+    "recoveryMeters": 400
+  },
+  {
+    "id": "hb",
+    "name": "Sustained half-marathon repeats",
+    "category": "specific",
+    "goals": [
+      "half"
+    ],
+    "pace": "half",
+    "reps": 4,
+    "recovery": 120,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "purpose": "Practise longer, even event-rhythm repetitions.",
+    "cue": "Run each repetition at the same effort. Keep the final rep controlled.",
+    "meters": 1600
+  },
+  {
+    "id": "m2",
+    "name": "Broken timed marathon rhythm",
+    "category": "specific",
+    "goals": [
+      "marathon"
+    ],
+    "pace": "marathon",
+    "reps": 2,
+    "recovery": 180,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "purpose": "Two controlled blocks with a clear easy reset.",
+    "cue": "Settle into rhythm, jog three minutes, then repeat without chasing a quicker second block.",
+    "seconds": 900
+  },
   {
     "id": "s1",
     "name": "Short & controlled",
@@ -125,7 +210,7 @@ export const WORKOUTS:Workout[]=[
   },
   {
     "id": "s5",
-    "name": "Measured kilometres",
+    "name": "Measured aerobic repeats",
     "category": "sub",
     "goals": [
       "5k",
@@ -139,7 +224,7 @@ export const WORKOUTS:Workout[]=[
     "level": "Standard",
     "purpose": "Make controlled aerobic work easy to pace on a measured route.",
     "cue": "Stay below threshold effort. Choose a timed option if these reps feel too long.",
-    "note": "A fixed-distance option: slower runners may prefer 6 × 5 min to limit work duration."
+    "note": "A fixed-distance option: slower runners may prefer 6 \u00d7 5 min to limit work duration."
   },
   {
     "id": "s6",
@@ -228,7 +313,7 @@ export const WORKOUTS:Workout[]=[
     "recoveryType": "easy jog",
     "level": "Demanding",
     "purpose": "Extend threshold volume for runners already comfortable with shorter sessions.",
-    "cue": "Add volume only when 4 × 5 min feels well controlled.",
+    "cue": "Add volume only when 4 \u00d7 5 min feels well controlled.",
     "note": "Higher-volume option. Work distance should fit your established weekly training."
   },
   {
@@ -301,7 +386,7 @@ export const WORKOUTS:Workout[]=[
   },
   {
     "id": "r1",
-    "name": "Fast, relaxed 200s",
+    "name": "Fast, relaxed repeats",
     "category": "speed",
     "goals": [
       "mile",
@@ -378,7 +463,7 @@ export const WORKOUTS:Workout[]=[
   },
   {
     "id": "e2",
-    "name": "Aerobic mileage",
+    "name": "Aerobic volume",
     "category": "easy",
     "goals": [
       "10k",
@@ -416,25 +501,8 @@ export const WORKOUTS:Workout[]=[
     "cooldown": 0
   },
   {
-    "id": "m1",
-    "name": "Relaxed race-rhythm 200s",
-    "category": "specific",
-    "goals": [
-      "mile"
-    ],
-    "pace": "repetition",
-    "reps": 8,
-    "recovery": 0,
-    "recoveryType": "easy jog",
-    "level": "Light",
-    "purpose": "Fast running with room to stay relaxed.",
-    "cue": "Let form dictate recovery. Take longer if you cannot repeat the same smooth mechanics.",
-    "meters": 200,
-    "recoveryMeters": 200
-  },
-  {
     "id": "mi2",
-    "name": "Race-season 300s",
+    "name": "Race-season speed",
     "category": "specific",
     "goals": [
       "mile"
@@ -450,7 +518,7 @@ export const WORKOUTS:Workout[]=[
   },
   {
     "id": "mi5",
-    "name": "Sustained 1500 rhythm",
+    "name": "Sustained track rhythm",
     "category": "specific",
     "goals": [
       "mile"
@@ -467,7 +535,7 @@ export const WORKOUTS:Workout[]=[
   },
   {
     "id": "mi3",
-    "name": "Paired 400s",
+    "name": "Paired race-speed laps",
     "category": "specific",
     "goals": [
       "mile"
@@ -478,7 +546,7 @@ export const WORKOUTS:Workout[]=[
     "recoveryType": "easy jog",
     "level": "Demanding",
     "purpose": "Regain race rhythm after a short moving reset.",
-    "cue": "Use 100 m jog inside each pair and five minutes between pairs. The final rep has no added recovery.",
+    "cue": "Use the short jog inside each pair and the longer reset between pairs.",
     "seconds": 1,
     "blocks": [
       {
@@ -525,17 +593,20 @@ export const WORKOUTS:Workout[]=[
         "reps": 1,
         "pace": "1500",
         "recovery": 0,
-        "meters": 400,
-        "afterMeters": 0,
-        "after": 300
+        "meters": 400
       }
     ],
-    "prescription": "3 × (2 × 400 m)",
-    "recoverySummary": "100 m jog / 5 min reset"
+    "summarySets": 3,
+    "summarySteps": [
+      {
+        "reps": 2,
+        "meters": 400
+      }
+    ]
   },
   {
     "id": "mi6",
-    "name": "Long race-specific 600s",
+    "name": "Long race-specific repeats",
     "category": "specific",
     "goals": [
       "mile"
@@ -565,7 +636,8 @@ export const WORKOUTS:Workout[]=[
     "purpose": "A brief reminder of familiar race rhythm.",
     "cue": "Stay at current equivalent 1500 pace. The purpose is freshness, not a last-minute fitness test.",
     "meters": 400,
-    "recoveryMeters": 400
+    "recoveryMeters": 400,
+    "focus": "Sharpening"
   },
   {
     "id": "5e",
@@ -581,7 +653,8 @@ export const WORKOUTS:Workout[]=[
     "level": "Light",
     "purpose": "Learn race effort without a measured course.",
     "cue": "Keep the effort even. Do not sprint because the reps are short.",
-    "seconds": 60
+    "seconds": 60,
+    "focus": "Race rhythm"
   },
   {
     "id": "5d",
@@ -600,25 +673,8 @@ export const WORKOUTS:Workout[]=[
     "seconds": 120
   },
   {
-    "id": "5a",
-    "name": "The 400 m rhythm builder",
-    "category": "specific",
-    "goals": [
-      "5k"
-    ],
-    "pace": "5k",
-    "reps": 10,
-    "recovery": 0,
-    "recoveryType": "easy jog",
-    "level": "Standard",
-    "purpose": "Accumulate race-pace distance in short pieces.",
-    "cue": "Hold the same race rhythm, with a genuinely easy 200 m jog.",
-    "meters": 400,
-    "recoveryMeters": 200
-  },
-  {
     "id": "5b",
-    "name": "The 800 m step-up",
+    "name": "The two-lap step-up",
     "category": "specific",
     "goals": [
       "5k"
@@ -635,7 +691,7 @@ export const WORKOUTS:Workout[]=[
   },
   {
     "id": "5c",
-    "name": "The kilometre rehearsal",
+    "name": "The key race rehearsal",
     "category": "specific",
     "goals": [
       "5k"
@@ -652,7 +708,7 @@ export const WORKOUTS:Workout[]=[
   },
   {
     "id": "5f",
-    "name": "Controlled 1200 change-ups",
+    "name": "Controlled gear changes",
     "category": "specific",
     "goals": [
       "5k"
@@ -715,16 +771,24 @@ export const WORKOUTS:Workout[]=[
         "reps": 1,
         "pace": "3k",
         "recovery": 0,
-        "meters": 400,
-        "after": 180
+        "meters": 400
       }
     ],
-    "prescription": "4 × (800 m + 400 m)",
-    "recoverySummary": "3 min between 1200s"
+    "summarySets": 4,
+    "summarySteps": [
+      {
+        "reps": 1,
+        "meters": 800
+      },
+      {
+        "reps": 1,
+        "meters": 400
+      }
+    ]
   },
   {
     "id": "5g",
-    "name": "Light-and-fresh 400s",
+    "name": "Light and fresh",
     "category": "specific",
     "goals": [
       "5k"
@@ -735,7 +799,7 @@ export const WORKOUTS:Workout[]=[
     "recoveryType": "easy jog",
     "level": "Demanding",
     "purpose": "Rehearse controlled faster gears with more recovery.",
-    "cue": "The second set is 2 sec per lap faster; the third is 4 sec faster. Jog 400 m between sets.",
+    "cue": "Each set is a little quicker. Follow the calculated pace for that set and take the written jog recoveries.",
     "seconds": 1,
     "blocks": [
       {
@@ -764,8 +828,13 @@ export const WORKOUTS:Workout[]=[
         "paceOffset": -10
       }
     ],
-    "prescription": "3 sets × 3 × 400 m",
-    "recoverySummary": "100 / 200 / 400 m jog"
+    "summarySets": 3,
+    "summarySteps": [
+      {
+        "reps": 3,
+        "meters": 400
+      }
+    ]
   },
   {
     "id": "10e",
@@ -781,28 +850,12 @@ export const WORKOUTS:Workout[]=[
     "level": "Light",
     "purpose": "An approachable time-based race-rhythm session.",
     "cue": "Two minutes at current equivalent 10K pace, then two minutes easy. Keep every rep repeatable.",
-    "seconds": 120
-  },
-  {
-    "id": "10a",
-    "name": "Measured race kilometres",
-    "category": "specific",
-    "goals": [
-      "10k"
-    ],
-    "pace": "10k",
-    "reps": 5,
-    "recovery": 0,
-    "recoveryType": "easy jog",
-    "level": "Standard",
-    "purpose": "Settle into an even, measurable 10K rhythm.",
-    "cue": "The recovery is 400 m, not a fixed invented number of seconds.",
-    "meters": 1000,
-    "recoveryMeters": 400
+    "seconds": 120,
+    "focus": "Race rhythm"
   },
   {
     "id": "10d",
-    "name": "Longer fifteen-hundreds",
+    "name": "Longer race repetitions",
     "category": "specific",
     "goals": [
       "10k"
@@ -818,7 +871,7 @@ export const WORKOUTS:Workout[]=[
   },
   {
     "id": "10b",
-    "name": "Extended two-kilometre blocks",
+    "name": "Extended race blocks",
     "category": "specific",
     "goals": [
       "10k"
@@ -877,9 +930,7 @@ export const WORKOUTS:Workout[]=[
         "recovery": 60,
         "seconds": 60
       }
-    ],
-    "prescription": "4 × 3 min + 4 × 1 min",
-    "recoverySummary": "2 min / 1 min jog"
+    ]
   },
   {
     "id": "ha",
@@ -895,23 +946,8 @@ export const WORKOUTS:Workout[]=[
     "level": "Light",
     "purpose": "Get familiar with half-marathon rhythm in small pieces.",
     "cue": "Stay patient. The target is half-marathon race rhythm, not automatically threshold.",
-    "meters": 800
-  },
-  {
-    "id": "hb",
-    "name": "Half-marathon metric miles",
-    "category": "specific",
-    "goals": [
-      "half"
-    ],
-    "pace": "half",
-    "reps": 4,
-    "recovery": 120,
-    "recoveryType": "easy jog",
-    "level": "Standard",
-    "purpose": "Practise longer, even event-rhythm repetitions.",
-    "cue": "Run each 1600 m at the same effort. Do not accelerate the final rep to prove fitness.",
-    "meters": 1600
+    "meters": 800,
+    "focus": "Race rhythm"
   },
   {
     "id": "hc",
@@ -992,8 +1028,12 @@ export const WORKOUTS:Workout[]=[
         "meters": 1600
       }
     ],
-    "prescription": "5 × 1600 m alternating",
-    "recoverySummary": "Marathon-pace floats"
+    "summarySteps": [
+      {
+        "reps": 5,
+        "meters": 1600
+      }
+    ]
   },
   {
     "id": "hf",
@@ -1030,8 +1070,6 @@ export const WORKOUTS:Workout[]=[
         "seconds": 600
       }
     ],
-    "prescription": "40 easy + 20 half + 10 easy",
-    "recoverySummary": "Continuous",
     "warmup": 0,
     "cooldown": 0
   },
@@ -1071,9 +1109,7 @@ export const WORKOUTS:Workout[]=[
         "recovery": 120,
         "meters": 400
       }
-    ],
-    "prescription": "3000 + 2000 + 4 × 400 m",
-    "recoverySummary": "3 min / 2 min jog"
+    ]
   },
   {
     "id": "me",
@@ -1089,23 +1125,8 @@ export const WORKOUTS:Workout[]=[
     "level": "Light",
     "purpose": "A smaller, standalone rehearsal of current marathon rhythm.",
     "cue": "A race-time equivalent is not proof of marathon endurance. Match the effort to the preparation you actually have.",
-    "seconds": 1200
-  },
-  {
-    "id": "m2",
-    "name": "Broken timed marathon rhythm",
-    "category": "specific",
-    "goals": [
-      "marathon"
-    ],
-    "pace": "marathon",
-    "reps": 2,
-    "recovery": 180,
-    "recoveryType": "easy jog",
-    "level": "Standard",
-    "purpose": "Two controlled blocks with a clear easy reset.",
-    "cue": "Settle into rhythm, jog three minutes, then repeat without chasing a quicker second block.",
-    "seconds": 900
+    "seconds": 1200,
+    "focus": "Race rhythm"
   },
   {
     "id": "mb",
@@ -1120,7 +1141,7 @@ export const WORKOUTS:Workout[]=[
     "recoveryType": "easy jog",
     "level": "Demanding",
     "purpose": "Extend marathon-rhythm running with one easy reset.",
-    "cue": "Practise pacing and fuelling. The elapsed work matters as much as the 10 km distance.",
+    "cue": "Practise pacing and fuelling. Check that the full duration fits your established training.",
     "meters": 5000
   },
   {
@@ -1206,8 +1227,18 @@ export const WORKOUTS:Workout[]=[
         "meters": 1000
       }
     ],
-    "prescription": "6 × 1000 m / 1000 m easy",
-    "recoverySummary": "1 km easy floats"
+    "summarySteps": [
+      {
+        "reps": 6,
+        "meters": 1000,
+        "pace": "marathon"
+      },
+      {
+        "reps": 5,
+        "meters": 1000,
+        "pace": "easy"
+      }
+    ]
   },
   {
     "id": "md",
@@ -1238,14 +1269,12 @@ export const WORKOUTS:Workout[]=[
         "seconds": 1200
       }
     ],
-    "prescription": "60 min easy + 20 min MP",
-    "recoverySummary": "Continuous",
     "warmup": 0,
     "cooldown": 300
   },
   {
     "id": "mx",
-    "name": "Experienced runner’s split rehearsal",
+    "name": "Experienced runner\u2019s split rehearsal",
     "category": "specific",
     "goals": [
       "marathon"
@@ -1256,30 +1285,28 @@ export const WORKOUTS:Workout[]=[
     "recoveryType": "easy jog",
     "level": "Demanding",
     "purpose": "A substantial specific rehearsal inside a complete run.",
-    "cue": "Includes 2 miles easy before and after. Read the full calculated duration before choosing this advanced option.",
+    "cue": "Includes the easy opening and finish. Check the full duration before choosing this demanding rehearsal.",
     "seconds": 1,
     "blocks": [
       {
         "reps": 1,
         "pace": "easy",
         "recovery": 0,
-        "meters": 3218.688
+        "meters": 3000
       },
       {
         "reps": 2,
         "pace": "marathon",
         "recovery": 300,
-        "meters": 8046.72
+        "meters": 8000
       },
       {
         "reps": 1,
         "pace": "easy",
         "recovery": 0,
-        "meters": 3218.688
+        "meters": 3000
       }
     ],
-    "prescription": "2 × 5 miles at marathon pace",
-    "recoverySummary": "5 min easy jog",
     "warmup": 0,
     "cooldown": 0
   },
@@ -1303,25 +1330,4302 @@ export const WORKOUTS:Workout[]=[
         "reps": 1,
         "pace": "easy",
         "recovery": 0,
-        "meters": 8046.72
+        "meters": 8000
       },
       {
         "reps": 1,
         "pace": "marathon",
         "recovery": 0,
-        "meters": 9656.064
+        "meters": 10000
       },
       {
         "reps": 1,
         "pace": "easy",
         "recovery": 0,
-        "meters": 1609.344
+        "meters": 2000
       }
     ],
-    "prescription": "5 mi easy + 6 mi MP + 1 mi easy",
-    "recoverySummary": "Continuous",
     "warmup": 0,
     "cooldown": 0
+  },
+  {
+    "id": "miX1",
+    "name": "Race-pace extensions",
+    "category": "specific",
+    "goals": [
+      "mile"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "1500",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Standard",
+    "purpose": "Race rhythm",
+    "focus": "Race rhythm",
+    "cue": "Hold current 1500 m rhythm; take the full recovery.",
+    "blocks": [
+      {
+        "reps": 4,
+        "meters": 500,
+        "pace": "1500",
+        "recovery": 180
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 4,
+        "meters": 500,
+        "pace": "1500"
+      }
+    ]
+  },
+  {
+    "id": "miX2",
+    "name": "Broken-race triples",
+    "category": "specific",
+    "goals": [
+      "mile"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "1500",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Demanding",
+    "purpose": "Race rhythm",
+    "focus": "Race rhythm",
+    "cue": "Relax after the long rep, then reproduce race rhythm in the short pieces.",
+    "blocks": [
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 90
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 90
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 180
+      },
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 90
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 90
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 180
+      },
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 90
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 90
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500",
+        "recovery": 0
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "1500"
+      },
+      {
+        "reps": 2,
+        "meters": 200,
+        "pace": "1500"
+      }
+    ],
+    "summarySets": 3
+  },
+  {
+    "id": "miX3",
+    "name": "Descending race sets",
+    "category": "specific",
+    "goals": [
+      "mile"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "1500",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Standard",
+    "purpose": "Race rhythm",
+    "focus": "Race rhythm",
+    "cue": "Keep one race pace as the repetitions shorten; do not turn the last rep into a sprint.",
+    "blocks": [
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 90
+      },
+      {
+        "reps": 1,
+        "meters": 300,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 90
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 240
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 90
+      },
+      {
+        "reps": 1,
+        "meters": 300,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 90
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 240
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 90
+      },
+      {
+        "reps": 1,
+        "meters": 300,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 90
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500",
+        "recovery": 0
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "1500"
+      },
+      {
+        "reps": 1,
+        "meters": 300,
+        "pace": "1500"
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500"
+      }
+    ],
+    "summarySets": 3
+  },
+  {
+    "id": "miX4",
+    "name": "Paired race-speed repeats",
+    "category": "specific",
+    "goals": [
+      "mile"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "1500",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Standard",
+    "purpose": "Race rhythm",
+    "focus": "Race rhythm",
+    "cue": "Use the short jog inside each pair and reset fully between pairs.",
+    "blocks": [
+      {
+        "reps": 2,
+        "meters": 300,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 0,
+        "recoveryMeters": 100,
+        "afterMeters": 400
+      },
+      {
+        "reps": 2,
+        "meters": 300,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 0,
+        "recoveryMeters": 100,
+        "afterMeters": 400
+      },
+      {
+        "reps": 2,
+        "meters": 300,
+        "pace": "1500",
+        "recovery": 0,
+        "recoveryMeters": 100
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 2,
+        "meters": 300,
+        "pace": "1500"
+      }
+    ],
+    "summarySets": 3
+  },
+  {
+    "id": "miX5",
+    "name": "Race-pace endurance",
+    "category": "specific",
+    "goals": [
+      "mile"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "1500",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Demanding",
+    "purpose": "Race rhythm",
+    "focus": "Race rhythm",
+    "cue": "An experienced-runner session. Keep your form intact for the whole two-lap rep.",
+    "blocks": [
+      {
+        "reps": 3,
+        "meters": 800,
+        "pace": "1500",
+        "recovery": 0,
+        "recoveryRatio": 2
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 3,
+        "meters": 800,
+        "pace": "1500"
+      }
+    ]
+  },
+  {
+    "id": "miX6",
+    "name": "Aerobic-power repeats",
+    "category": "specific",
+    "goals": [
+      "mile"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "1500",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Standard",
+    "purpose": "Aerobic power",
+    "focus": "Aerobic power",
+    "cue": "Stay at current 3K rhythm; this is not a race-pace 1500 m session.",
+    "blocks": [
+      {
+        "reps": 5,
+        "meters": 600,
+        "pace": "3k",
+        "recovery": 0,
+        "recoveryMeters": 300
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 5,
+        "meters": 600,
+        "pace": "1500"
+      }
+    ]
+  },
+  {
+    "id": "miX7",
+    "name": "Two-lap aerobic power",
+    "category": "specific",
+    "goals": [
+      "mile"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "1500",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Standard",
+    "purpose": "Aerobic power",
+    "focus": "Aerobic power",
+    "cue": "Make the final lap of every repetition as composed as the first.",
+    "blocks": [
+      {
+        "reps": 4,
+        "meters": 800,
+        "pace": "3k",
+        "recovery": 0,
+        "recoveryMeters": 400
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 4,
+        "meters": 800,
+        "pace": "1500"
+      }
+    ]
+  },
+  {
+    "id": "miX8",
+    "name": "Long-to-short race rhythm",
+    "category": "specific",
+    "goals": [
+      "mile"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "1500",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Demanding",
+    "purpose": "Race rhythm",
+    "focus": "Race rhythm",
+    "cue": "The long repetitions set the load. Keep the shorter work controlled.",
+    "blocks": [
+      {
+        "reps": 2,
+        "meters": 800,
+        "pace": "1500",
+        "recovery": 240,
+        "after": 240
+      },
+      {
+        "reps": 2,
+        "meters": 600,
+        "pace": "1500",
+        "recovery": 150,
+        "after": 150
+      },
+      {
+        "reps": 2,
+        "meters": 400,
+        "pace": "1500",
+        "recovery": 150
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 2,
+        "meters": 800,
+        "pace": "1500"
+      },
+      {
+        "reps": 2,
+        "meters": 600,
+        "pace": "1500"
+      },
+      {
+        "reps": 2,
+        "meters": 400,
+        "pace": "1500"
+      }
+    ]
+  },
+  {
+    "id": "miX9",
+    "name": "Short-rest speed clusters",
+    "category": "specific",
+    "goals": [
+      "mile"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "1500",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Demanding",
+    "purpose": "Race rhythm",
+    "focus": "Race rhythm",
+    "cue": "Keep the short recoveries easy; hold current pace without pressing faster.",
+    "blocks": [
+      {
+        "reps": 8,
+        "meters": 200,
+        "pace": "1500",
+        "recovery": 30,
+        "after": 180
+      },
+      {
+        "reps": 8,
+        "meters": 200,
+        "pace": "1500",
+        "recovery": 30,
+        "after": 180
+      },
+      {
+        "reps": 8,
+        "meters": 200,
+        "pace": "1500",
+        "recovery": 30
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 8,
+        "meters": 200,
+        "pace": "1500"
+      }
+    ],
+    "summarySets": 3
+  },
+  {
+    "id": "miX10",
+    "name": "Broken laps",
+    "category": "specific",
+    "goals": [
+      "mile"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "1500",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Demanding",
+    "purpose": "Race rhythm",
+    "focus": "Race rhythm",
+    "cue": "The two short reps prepare the full lap; keep all three at the same pace.",
+    "blocks": [
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 30
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 30
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 30
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 30
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 30
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 30
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 30
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 30
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "1500",
+        "recovery": 0
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 2,
+        "meters": 200,
+        "pace": "1500"
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "1500"
+      }
+    ],
+    "summarySets": 4
+  },
+  {
+    "id": "miX11",
+    "name": "Race-speed cutdown",
+    "category": "specific",
+    "goals": [
+      "mile"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "1500",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Standard",
+    "purpose": "Sharpening",
+    "focus": "Sharpening",
+    "cue": "Run crisp, controlled race rhythm throughout. Take the full descending recoveries.",
+    "blocks": [
+      {
+        "reps": 1,
+        "meters": 500,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 240
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 180
+      },
+      {
+        "reps": 1,
+        "meters": 300,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500",
+        "recovery": 0
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 1,
+        "meters": 500,
+        "pace": "1500"
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "1500"
+      },
+      {
+        "reps": 1,
+        "meters": 300,
+        "pace": "1500"
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500"
+      }
+    ]
+  },
+  {
+    "id": "miX12",
+    "name": "Race-rhythm gear changes",
+    "category": "specific",
+    "goals": [
+      "mile"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "1500",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Demanding",
+    "purpose": "Mixed pace",
+    "focus": "Mixed pace",
+    "cue": "Change gears smoothly after the first lap, then use all five minutes to recover.",
+    "blocks": [
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "3k",
+        "recovery": 0,
+        "after": 0
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 300
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "3k",
+        "recovery": 0,
+        "after": 0
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 300
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "3k",
+        "recovery": 0,
+        "after": 0
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500",
+        "recovery": 0,
+        "after": 300
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "3k",
+        "recovery": 0,
+        "after": 0
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500",
+        "recovery": 0
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "1500"
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500"
+      }
+    ],
+    "summarySets": 4
+  },
+  {
+    "id": "miX13",
+    "name": "Threshold into turnover",
+    "category": "specific",
+    "goals": [
+      "mile"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "1500",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Standard",
+    "purpose": "Stamina",
+    "focus": "Stamina",
+    "cue": "Keep the threshold blocks controlled and the final fast repetitions relaxed.",
+    "blocks": [
+      {
+        "reps": 2,
+        "seconds": 480,
+        "pace": "threshold",
+        "recovery": 90,
+        "after": 180
+      },
+      {
+        "reps": 4,
+        "meters": 200,
+        "pace": "1500",
+        "recovery": 120
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 2,
+        "seconds": 480,
+        "pace": "5k"
+      },
+      {
+        "reps": 4,
+        "meters": 200,
+        "pace": "1500"
+      }
+    ]
+  },
+  {
+    "id": "miX14",
+    "name": "Race-week rhythm touch",
+    "category": "specific",
+    "goals": [
+      "mile"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "1500",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Light",
+    "purpose": "Sharpening",
+    "focus": "Sharpening",
+    "cue": "Finish feeling sharp. Reproduce pace without searching for fatigue.",
+    "blocks": [
+      {
+        "reps": 3,
+        "meters": 300,
+        "pace": "1500",
+        "recovery": 180,
+        "after": 180
+      },
+      {
+        "reps": 3,
+        "meters": 150,
+        "pace": "1500",
+        "recovery": 120
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 3,
+        "meters": 300,
+        "pace": "1500"
+      },
+      {
+        "reps": 3,
+        "meters": 150,
+        "pace": "1500"
+      }
+    ]
+  },
+  {
+    "id": "fiveX1",
+    "name": "The race-rhythm bridge",
+    "category": "specific",
+    "goals": [
+      "5k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "5k",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Standard",
+    "purpose": "Race rhythm",
+    "focus": "Race rhythm",
+    "cue": "Stay patient through the early repetitions and repeat your current 5K rhythm.",
+    "blocks": [
+      {
+        "reps": 8,
+        "meters": 600,
+        "pace": "5k",
+        "recovery": 0,
+        "recoveryMeters": 300
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 8,
+        "meters": 600,
+        "pace": "1500"
+      }
+    ]
+  },
+  {
+    "id": "fiveX2",
+    "name": "One-minute clusters",
+    "category": "specific",
+    "goals": [
+      "5k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "5k",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Standard",
+    "purpose": "Race rhythm",
+    "focus": "Race rhythm",
+    "cue": "Use the longer set recoveries to reset; every minute should feel repeatable.",
+    "blocks": [
+      {
+        "reps": 4,
+        "seconds": 60,
+        "pace": "5k",
+        "recovery": 60,
+        "after": 180
+      },
+      {
+        "reps": 4,
+        "seconds": 60,
+        "pace": "5k",
+        "recovery": 60,
+        "after": 180
+      },
+      {
+        "reps": 4,
+        "seconds": 60,
+        "pace": "5k",
+        "recovery": 60
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 4,
+        "seconds": 60,
+        "pace": "5k"
+      }
+    ],
+    "summarySets": 3
+  },
+  {
+    "id": "fiveX3",
+    "name": "Ninety-second clusters",
+    "category": "specific",
+    "goals": [
+      "5k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "5k",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Standard",
+    "purpose": "Race rhythm",
+    "focus": "Race rhythm",
+    "cue": "Run even repetitions rather than chasing extra distance on the last one.",
+    "blocks": [
+      {
+        "reps": 5,
+        "seconds": 90,
+        "pace": "5k",
+        "recovery": 90,
+        "after": 180
+      },
+      {
+        "reps": 5,
+        "seconds": 90,
+        "pace": "5k",
+        "recovery": 90
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 5,
+        "seconds": 90,
+        "pace": "5k"
+      }
+    ],
+    "summarySets": 2
+  },
+  {
+    "id": "fiveX4",
+    "name": "Two-minute clusters",
+    "category": "specific",
+    "goals": [
+      "5k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "5k",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Standard",
+    "purpose": "Race rhythm",
+    "focus": "Race rhythm",
+    "cue": "Two clear sets of controlled 5K work; recover fully before set two.",
+    "blocks": [
+      {
+        "reps": 4,
+        "seconds": 120,
+        "pace": "5k",
+        "recovery": 120,
+        "after": 240
+      },
+      {
+        "reps": 4,
+        "seconds": 120,
+        "pace": "5k",
+        "recovery": 120
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 4,
+        "seconds": 120,
+        "pace": "5k"
+      }
+    ],
+    "summarySets": 2
+  },
+  {
+    "id": "fiveX5",
+    "name": "Race-pace descending sets",
+    "category": "specific",
+    "goals": [
+      "5k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "5k",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Demanding",
+    "purpose": "Race rhythm",
+    "focus": "Race rhythm",
+    "cue": "Hold one pace as the reps shorten; the short rests are part of the session.",
+    "blocks": [
+      {
+        "reps": 1,
+        "meters": 1000,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 75
+      },
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 60
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 240
+      },
+      {
+        "reps": 1,
+        "meters": 1000,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 75
+      },
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 60
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 0
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 1,
+        "meters": 1000,
+        "pace": "1500"
+      },
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "1500"
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "1500"
+      }
+    ],
+    "summarySets": 2
+  },
+  {
+    "id": "fiveX6",
+    "name": "Kick-finish repeats",
+    "category": "specific",
+    "goals": [
+      "5k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "5k",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Demanding",
+    "purpose": "Mixed pace",
+    "focus": "Mixed pace",
+    "cue": "Move smoothly into the last short segment, then take the full reset.",
+    "blocks": [
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 0
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "3k",
+        "recovery": 0,
+        "after": 180
+      },
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 0
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "3k",
+        "recovery": 0,
+        "after": 180
+      },
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 0
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "3k",
+        "recovery": 0,
+        "after": 180
+      },
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 0
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "3k",
+        "recovery": 0,
+        "after": 180
+      },
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 0
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "3k",
+        "recovery": 0
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "1500"
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500"
+      }
+    ],
+    "summarySets": 5
+  },
+  {
+    "id": "fiveX7",
+    "name": "Long race-rhythm repeats",
+    "category": "specific",
+    "goals": [
+      "5k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "5k",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Demanding",
+    "purpose": "Race rhythm",
+    "focus": "Race rhythm",
+    "cue": "A demanding race-specific rehearsal for runners already comfortable with kilometre reps.",
+    "blocks": [
+      {
+        "reps": 3,
+        "meters": 1600,
+        "pace": "5k",
+        "recovery": 0,
+        "recoveryMeters": 400
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 3,
+        "meters": 1600,
+        "pace": "1500"
+      }
+    ]
+  },
+  {
+    "id": "fiveX8",
+    "name": "Race-pace lap changes",
+    "category": "specific",
+    "goals": [
+      "5k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "5k",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Demanding",
+    "purpose": "Mixed pace",
+    "focus": "Mixed pace",
+    "cue": "Change pace smoothly by the specified small amount; the slower lap is not an easy jog.",
+    "blocks": [
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 0,
+        "paceOffset": -5
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 0,
+        "paceOffset": 5
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 0,
+        "paceOffset": -5
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 180,
+        "paceOffset": 5
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 0,
+        "paceOffset": -5
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 0,
+        "paceOffset": 5
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 0,
+        "paceOffset": -5
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 180,
+        "paceOffset": 5
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 0,
+        "paceOffset": -5
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 0,
+        "paceOffset": 5
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 0,
+        "paceOffset": -5
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 0,
+        "paceOffset": 5
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 3,
+        "meters": 1600,
+        "pace": "1500"
+      }
+    ]
+  },
+  {
+    "id": "fiveX9",
+    "name": "The timed pace ladder",
+    "category": "specific",
+    "goals": [
+      "5k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "5k",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Standard",
+    "purpose": "Mixed pace",
+    "focus": "Mixed pace",
+    "cue": "Let the pace follow the length of each effort and stay controlled up and down.",
+    "blocks": [
+      {
+        "reps": 1,
+        "seconds": 60,
+        "pace": "3k",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 1,
+        "seconds": 120,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 1,
+        "seconds": 180,
+        "pace": "10k",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 1,
+        "seconds": 240,
+        "pace": "half",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 1,
+        "seconds": 300,
+        "pace": "half",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 1,
+        "seconds": 240,
+        "pace": "half",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 1,
+        "seconds": 180,
+        "pace": "10k",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 1,
+        "seconds": 120,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 1,
+        "seconds": 60,
+        "pace": "3k",
+        "recovery": 0
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 1,
+        "seconds": 60,
+        "pace": "5k"
+      },
+      {
+        "reps": 1,
+        "seconds": 120,
+        "pace": "5k"
+      },
+      {
+        "reps": 1,
+        "seconds": 180,
+        "pace": "5k"
+      },
+      {
+        "reps": 1,
+        "seconds": 240,
+        "pace": "5k"
+      },
+      {
+        "reps": 1,
+        "seconds": 300,
+        "pace": "5k"
+      },
+      {
+        "reps": 1,
+        "seconds": 240,
+        "pace": "5k"
+      },
+      {
+        "reps": 1,
+        "seconds": 180,
+        "pace": "5k"
+      },
+      {
+        "reps": 1,
+        "seconds": 120,
+        "pace": "5k"
+      },
+      {
+        "reps": 1,
+        "seconds": 60,
+        "pace": "5k"
+      }
+    ]
+  },
+  {
+    "id": "fiveX10",
+    "name": "Race-week quick repeats",
+    "category": "specific",
+    "goals": [
+      "5k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "5k",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Light",
+    "purpose": "Sharpening",
+    "focus": "Sharpening",
+    "cue": "Keep the faster running light, with a full easy recovery every time.",
+    "blocks": [
+      {
+        "reps": 2,
+        "meters": 200,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 0,
+        "recoveryMeters": 400,
+        "afterMeters": 400,
+        "paceOffset": -5
+      },
+      {
+        "reps": 2,
+        "meters": 200,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 0,
+        "recoveryMeters": 400,
+        "afterMeters": 400,
+        "paceOffset": -15
+      },
+      {
+        "reps": 2,
+        "meters": 200,
+        "pace": "5k",
+        "recovery": 0,
+        "recoveryMeters": 400,
+        "paceOffset": -20
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 2,
+        "meters": 200,
+        "pace": "1500"
+      }
+    ],
+    "summarySets": 3
+  },
+  {
+    "id": "fiveX11",
+    "name": "Tempo into race rhythm",
+    "category": "specific",
+    "goals": [
+      "5k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "5k",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Demanding",
+    "purpose": "Stamina",
+    "focus": "Stamina",
+    "cue": "Leave reserve in the tempo so the final race-pace block stays composed.",
+    "blocks": [
+      {
+        "reps": 1,
+        "seconds": 1200,
+        "pace": "threshold",
+        "recovery": 0,
+        "after": 180
+      },
+      {
+        "reps": 1,
+        "meters": 2000,
+        "pace": "5k",
+        "recovery": 0
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 1,
+        "seconds": 1200,
+        "pace": "5k"
+      },
+      {
+        "reps": 1,
+        "meters": 2000,
+        "pace": "1500"
+      }
+    ]
+  },
+  {
+    "id": "fiveX12",
+    "name": "Fast laps and steady running",
+    "category": "specific",
+    "goals": [
+      "5k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "5k",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Demanding",
+    "purpose": "Mixed pace",
+    "focus": "Mixed pace",
+    "cue": "The middle section is steady running; reset before the second set of laps.",
+    "blocks": [
+      {
+        "reps": 4,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 90,
+        "after": 180
+      },
+      {
+        "reps": 1,
+        "seconds": 600,
+        "pace": "marathon",
+        "recovery": 0,
+        "after": 180
+      },
+      {
+        "reps": 4,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 90
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 4,
+        "meters": 400,
+        "pace": "1500"
+      },
+      {
+        "reps": 1,
+        "seconds": 600,
+        "pace": "5k"
+      },
+      {
+        "reps": 4,
+        "meters": 400,
+        "pace": "1500"
+      }
+    ]
+  },
+  {
+    "id": "fiveX13",
+    "name": "The race-pace cutdown",
+    "category": "specific",
+    "goals": [
+      "5k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "5k",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Standard",
+    "purpose": "Mixed pace",
+    "focus": "Mixed pace",
+    "cue": "Settle into the longer blocks, then let the shorter reps become quicker without sprinting.",
+    "blocks": [
+      {
+        "reps": 1,
+        "meters": 1600,
+        "pace": "10k",
+        "recovery": 0,
+        "after": 180
+      },
+      {
+        "reps": 1,
+        "meters": 1200,
+        "pace": "10k",
+        "recovery": 0,
+        "after": 180
+      },
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 180
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 180
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "repetition",
+        "recovery": 0
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 1,
+        "meters": 1600,
+        "pace": "1500"
+      },
+      {
+        "reps": 1,
+        "meters": 1200,
+        "pace": "1500"
+      },
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "1500"
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "1500"
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "1500"
+      }
+    ]
+  },
+  {
+    "id": "fiveX14",
+    "name": "Race-week one-minute primer",
+    "category": "specific",
+    "goals": [
+      "5k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "5k",
+    "recovery": 0,
+    "recoveryType": "walk / jog",
+    "level": "Light",
+    "purpose": "Sharpening",
+    "focus": "Sharpening",
+    "cue": "Low volume, full control. Finish with more energy than you started.",
+    "blocks": [
+      {
+        "reps": 3,
+        "seconds": 60,
+        "pace": "5k",
+        "recovery": 60,
+        "after": 180
+      },
+      {
+        "reps": 3,
+        "seconds": 60,
+        "pace": "5k",
+        "recovery": 60
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 3,
+        "seconds": 60,
+        "pace": "5k"
+      }
+    ],
+    "summarySets": 2
+  },
+  {
+    "id": "tenX01",
+    "name": "Long opening, controlled repeats",
+    "category": "specific",
+    "goals": [
+      "10k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "10k",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Demanding",
+    "focus": "Race rhythm",
+    "purpose": "Hold race rhythm after an extended opening effort.",
+    "cue": "The shorter repetitions stay at the same pace; they are not a finishing sprint.",
+    "blocks": [
+      {
+        "reps": 1,
+        "meters": 3000,
+        "pace": "10k",
+        "recovery": 0,
+        "after": 300
+      },
+      {
+        "reps": 4,
+        "meters": 1500,
+        "pace": "10k",
+        "recovery": 180
+      }
+    ],
+    "note": "9 km at 10K pace. Reserve for experienced runners who have already built comparable quality volume; choose a timed session when this becomes too long."
+  },
+  {
+    "id": "tenX02",
+    "name": "Race-pace cutdown",
+    "category": "specific",
+    "goals": [
+      "10k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "10k",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "focus": "Mixed pace",
+    "purpose": "Practise precise race rhythm, then change gears as the repetitions shorten.",
+    "cue": "Keep the final 200 quick and smooth, with relaxed shoulders.",
+    "blocks": [
+      {
+        "reps": 1,
+        "meters": 1600,
+        "pace": "10k",
+        "recovery": 0,
+        "after": 150
+      },
+      {
+        "reps": 1,
+        "meters": 1200,
+        "pace": "10k",
+        "recovery": 0,
+        "after": 150
+      },
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 150
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 150
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "repetition",
+        "recovery": 0
+      }
+    ]
+  },
+  {
+    "id": "tenX03",
+    "name": "Long-short race pairs",
+    "category": "specific",
+    "goals": [
+      "10k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "10k",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Demanding",
+    "focus": "Mixed pace",
+    "purpose": "Alternate sustained 10K rhythm with a shorter, faster effort.",
+    "cue": "Run the first pair conservatively so the last 800 stays controlled.",
+    "blocks": [
+      {
+        "reps": 1,
+        "meters": 1600,
+        "pace": "10k",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 180
+      },
+      {
+        "reps": 1,
+        "meters": 1600,
+        "pace": "10k",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 180
+      },
+      {
+        "reps": 1,
+        "meters": 1600,
+        "pace": "10k",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "5k",
+        "recovery": 0
+      }
+    ],
+    "note": "7.2 km of quality at two race paces; a later-block workout for runners already comfortable with mixed sessions.",
+    "summarySteps": [
+      {
+        "reps": 1,
+        "meters": 1600,
+        "pace": "10k"
+      },
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "5k"
+      }
+    ],
+    "summarySets": 3
+  },
+  {
+    "id": "tenX04",
+    "name": "Race-pace bookends",
+    "category": "specific",
+    "goals": [
+      "10k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "10k",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "focus": "Mixed pace",
+    "purpose": "Return to 10K rhythm after a controlled faster section.",
+    "cue": "The last long repetition matches the first; resist chasing the short reps.",
+    "blocks": [
+      {
+        "reps": 1,
+        "meters": 1600,
+        "pace": "10k",
+        "recovery": 0,
+        "afterMeters": 800
+      },
+      {
+        "reps": 4,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 0,
+        "recoveryMeters": 200,
+        "afterMeters": 200
+      },
+      {
+        "reps": 1,
+        "meters": 1600,
+        "pace": "10k",
+        "recovery": 0
+      }
+    ]
+  },
+  {
+    "id": "tenX05",
+    "name": "Three-minute changes",
+    "category": "specific",
+    "goals": [
+      "10k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "10k",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "focus": "Mixed pace",
+    "purpose": "Practise moving from race rhythm to quicker running across repeated sets.",
+    "cue": "Take the full set recovery and start each three-minute effort evenly.",
+    "blocks": [
+      {
+        "reps": 1,
+        "seconds": 180,
+        "pace": "10k",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 3,
+        "seconds": 60,
+        "pace": "5k",
+        "recovery": 60,
+        "after": 180
+      },
+      {
+        "reps": 1,
+        "seconds": 180,
+        "pace": "10k",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 3,
+        "seconds": 60,
+        "pace": "5k",
+        "recovery": 60,
+        "after": 180
+      },
+      {
+        "reps": 1,
+        "seconds": 180,
+        "pace": "10k",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 3,
+        "seconds": 60,
+        "pace": "5k",
+        "recovery": 60
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 1,
+        "seconds": 180,
+        "pace": "10k"
+      },
+      {
+        "reps": 3,
+        "seconds": 60,
+        "pace": "5k"
+      }
+    ],
+    "summarySets": 3
+  },
+  {
+    "id": "tenX06",
+    "name": "Race rhythm with steady floats",
+    "category": "specific",
+    "goals": [
+      "10k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "10k",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "focus": "Mixed pace",
+    "purpose": "Keep running steadily while repeatedly returning to race pace.",
+    "cue": "The slower section is purposeful steady running, not another fast rep.",
+    "blocks": [
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "10k",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 600,
+        "pace": "marathon",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "10k",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 600,
+        "pace": "marathon",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "10k",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 600,
+        "pace": "marathon",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "10k",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 600,
+        "pace": "marathon",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "10k",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 600,
+        "pace": "marathon",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "10k",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 600,
+        "pace": "marathon",
+        "recovery": 0
+      }
+    ],
+    "note": "6 km continuous quality including the floats. Use after a base of regular workouts; stop if either pace becomes forced.",
+    "summarySteps": [
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "10k"
+      },
+      {
+        "reps": 1,
+        "meters": 600,
+        "pace": "marathon"
+      }
+    ],
+    "summarySets": 6
+  },
+  {
+    "id": "tenX07",
+    "name": "Short surge, long float",
+    "category": "specific",
+    "goals": [
+      "10k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "10k",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "focus": "Mixed pace",
+    "purpose": "Make a small move and settle into sustained running without stopping.",
+    "cue": "Keep the surge at controlled 5K rhythm; recover by easing the pace, not by stopping.",
+    "blocks": [
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "5k",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "marathon",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "5k",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "marathon",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "5k",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "marathon",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "5k",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "marathon",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "5k",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "marathon",
+        "recovery": 0
+      }
+    ],
+    "note": "5 km continuous work. The faster segments are brief; the 800m floats still add aerobic load.",
+    "summarySteps": [
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "5k"
+      },
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "marathon"
+      }
+    ],
+    "summarySets": 5
+  },
+  {
+    "id": "tenX08",
+    "name": "Tempo into quick laps",
+    "category": "specific",
+    "goals": [
+      "10k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "10k",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "focus": "Stamina",
+    "purpose": "Find a quicker rhythm after sustained aerobic work.",
+    "cue": "Keep the tempo controlled so the 400s remain smooth.",
+    "blocks": [
+      {
+        "reps": 1,
+        "seconds": 1200,
+        "pace": "threshold",
+        "recovery": 0,
+        "after": 300
+      },
+      {
+        "reps": 4,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 0,
+        "recoveryMeters": 200
+      }
+    ]
+  },
+  {
+    "id": "tenX09",
+    "name": "Every fifth rep changes gear",
+    "category": "specific",
+    "goals": [
+      "10k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "10k",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "focus": "Mixed pace",
+    "purpose": "Hold a consistent rhythm around occasional faster repetitions.",
+    "cue": "The first four repetitions are measured, and the fifth is quicker without becoming all-out.",
+    "blocks": [
+      {
+        "reps": 4,
+        "meters": 400,
+        "pace": "10k",
+        "recovery": 60,
+        "after": 60
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 0,
+        "afterMeters": 400
+      },
+      {
+        "reps": 4,
+        "meters": 400,
+        "pace": "10k",
+        "recovery": 60,
+        "after": 60
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 0,
+        "afterMeters": 400
+      },
+      {
+        "reps": 4,
+        "meters": 400,
+        "pace": "10k",
+        "recovery": 60,
+        "after": 60
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 0
+      }
+    ],
+    "note": "6 km of quality with substantial recovery. Start with less volume if this exceeds your normal workout load.",
+    "summarySteps": [
+      {
+        "reps": 4,
+        "meters": 400,
+        "pace": "10k"
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "5k"
+      }
+    ],
+    "summarySets": 3
+  },
+  {
+    "id": "tenX10",
+    "name": "Fast start, steady settle",
+    "category": "specific",
+    "goals": [
+      "10k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "10k",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "focus": "Mixed pace",
+    "purpose": "Settle into controlled sustained running after a faster opening.",
+    "cue": "Slow deliberately at the transition; the second section is not a second race.",
+    "blocks": [
+      {
+        "reps": 1,
+        "meters": 2000,
+        "pace": "10k",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 4000,
+        "pace": "marathon",
+        "recovery": 0
+      }
+    ],
+    "note": "6 km continuous work. This is pace-control practice, not evidence that starting a race too fast is a good strategy."
+  },
+  {
+    "id": "tenX11",
+    "name": "Speed, rhythm, settle",
+    "category": "specific",
+    "goals": [
+      "10k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "10k",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Light",
+    "focus": "Mixed pace",
+    "purpose": "Rehearse several controlled speeds with more time to settle as the pace slows.",
+    "cue": "Stay relaxed on the first minute; the main target is smooth pacing across all three efforts.",
+    "blocks": [
+      {
+        "reps": 1,
+        "seconds": 60,
+        "pace": "repetition",
+        "recovery": 0,
+        "after": 30
+      },
+      {
+        "reps": 1,
+        "seconds": 180,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 90
+      },
+      {
+        "reps": 1,
+        "seconds": 300,
+        "pace": "10k",
+        "recovery": 0,
+        "after": 150
+      },
+      {
+        "reps": 1,
+        "seconds": 420,
+        "pace": "easy",
+        "recovery": 0
+      }
+    ],
+    "note": "9 minutes of quality. A shorter option for runners introducing structured pace changes.",
+    "cooldown": 0
+  },
+  {
+    "id": "tenX12",
+    "name": "Short-speed sandwich",
+    "category": "specific",
+    "goals": [
+      "10k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "10k",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "focus": "Stamina",
+    "purpose": "Reconnect with race pace after a small dose of quicker running.",
+    "cue": "The short reps stay controlled and technically sound; ease back into the final 800s.",
+    "blocks": [
+      {
+        "reps": 2,
+        "meters": 800,
+        "pace": "10k",
+        "recovery": 90,
+        "after": 90
+      },
+      {
+        "reps": 1,
+        "meters": 300,
+        "pace": "3k",
+        "recovery": 0,
+        "afterMeters": 200
+      },
+      {
+        "reps": 1,
+        "meters": 200,
+        "pace": "repetition",
+        "recovery": 0,
+        "afterMeters": 100
+      },
+      {
+        "reps": 1,
+        "meters": 100,
+        "pace": "repetition",
+        "recovery": 0,
+        "after": 240
+      },
+      {
+        "reps": 2,
+        "meters": 800,
+        "pace": "10k",
+        "recovery": 90
+      }
+    ],
+    "note": "For runners already accustomed to faster strides and track work. Use the controlled pace, not a maximum-speed effort."
+  },
+  {
+    "id": "tenX13",
+    "name": "Broken race repetitions",
+    "category": "specific",
+    "goals": [
+      "10k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "10k",
+    "recovery": 0,
+    "recoveryType": "walk",
+    "level": "Standard",
+    "focus": "Race rhythm",
+    "purpose": "Link a substantial race-pace segment with a shorter, quicker finish.",
+    "cue": "Walk the recovery and restart smoothly rather than rushing the first strides.",
+    "blocks": [
+      {
+        "reps": 1,
+        "meters": 1200,
+        "pace": "10k",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 60
+      },
+      {
+        "reps": 1,
+        "meters": 1200,
+        "pace": "10k",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 60
+      },
+      {
+        "reps": 1,
+        "meters": 1200,
+        "pace": "10k",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 0
+      }
+    ],
+    "note": "The recovery is walking here. Keep that distinction if the app\u2019s generic recovery label normally says jog.",
+    "summarySteps": [
+      {
+        "reps": 1,
+        "meters": 1200,
+        "pace": "10k"
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "5k"
+      }
+    ],
+    "summarySets": 3
+  },
+  {
+    "id": "tenX14",
+    "name": "Late-race progression",
+    "category": "specific",
+    "goals": [
+      "10k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "10k",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "focus": "Long run",
+    "purpose": "Practise lifting the effort after an easy aerobic lead-in.",
+    "cue": "Keep the first forty minutes genuinely easy; finish at current fitness, not a hoped-for race time.",
+    "blocks": [
+      {
+        "reps": 1,
+        "seconds": 2400,
+        "pace": "easy",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "seconds": 300,
+        "pace": "half",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "seconds": 300,
+        "pace": "10k",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "seconds": 300,
+        "pace": "easy",
+        "recovery": 0
+      }
+    ],
+    "note": "55 minutes total, with ten quality minutes. Embedded easy running includes preparation and cooldown.",
+    "warmup": 0,
+    "cooldown": 0
+  },
+  {
+    "id": "tenX15",
+    "name": "Fast, steady, finish",
+    "category": "specific",
+    "goals": [
+      "10k"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "10k",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Demanding",
+    "focus": "Mixed pace",
+    "purpose": "Stay composed through a long middle section after a brisk start, then finish with relaxed speed.",
+    "cue": "The middle section builds gradually; leave enough control for two tidy closing repetitions.",
+    "blocks": [
+      {
+        "reps": 1,
+        "meters": 1500,
+        "pace": "10k",
+        "recovery": 0,
+        "after": 180
+      },
+      {
+        "reps": 1,
+        "seconds": 900,
+        "pace": "marathon",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "seconds": 600,
+        "pace": "half",
+        "recovery": 0,
+        "after": 180
+      },
+      {
+        "reps": 2,
+        "meters": 300,
+        "pace": "3k",
+        "recovery": 180
+      }
+    ],
+    "note": "A substantial mixed session for established runners; do not use it as a maximum-effort fitness test."
+  },
+  {
+    "id": "halfX01",
+    "name": "Three ten-minute race blocks",
+    "category": "specific",
+    "goals": [
+      "half"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "half",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "focus": "Race rhythm",
+    "purpose": "Accumulate a measured half hour at race effort without a long continuous push.",
+    "cue": "Keep the same breathing and rhythm through all three blocks.",
+    "blocks": [
+      {
+        "reps": 3,
+        "seconds": 600,
+        "pace": "half",
+        "recovery": 120
+      }
+    ],
+    "note": "Race pace means current equivalent fitness. For very fast runners, HM effort can exceed one-hour threshold effort.",
+    "summarySteps": [
+      {
+        "reps": 3,
+        "seconds": 600,
+        "pace": "half"
+      }
+    ]
+  },
+  {
+    "id": "halfX02",
+    "name": "Long repetitions with easy floats",
+    "category": "specific",
+    "goals": [
+      "half"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "half",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Demanding",
+    "focus": "Race rhythm",
+    "purpose": "Build sustained concentration over long race-pace repetitions.",
+    "cue": "Jog the whole recovery easily; it is not an extra tempo segment.",
+    "blocks": [
+      {
+        "reps": 3,
+        "meters": 3000,
+        "pace": "half",
+        "recovery": 0,
+        "recoveryMeters": 800
+      }
+    ],
+    "note": "9 km at race pace plus 1.6 km of recovery. Use only after handling comparable long quality sessions; duration can be excessive for slower runners.",
+    "summarySteps": [
+      {
+        "reps": 3,
+        "meters": 3000,
+        "pace": "half"
+      }
+    ]
+  },
+  {
+    "id": "halfX03",
+    "name": "Aerobic strength repeats",
+    "category": "specific",
+    "goals": [
+      "half"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "half",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Demanding",
+    "focus": "Aerobic power",
+    "purpose": "Maintain quicker aerobic running while training for a longer race.",
+    "cue": "Stay at 10K pace from the first rep; this is not a VO2max test.",
+    "blocks": [
+      {
+        "reps": 8,
+        "meters": 800,
+        "pace": "10k",
+        "recovery": 90
+      }
+    ],
+    "note": "6.4 km faster than HM pace. Experienced runners only; do not add it beside another substantial race-pace session without accounting for the combined load.",
+    "summarySteps": [
+      {
+        "reps": 8,
+        "meters": 800,
+        "pace": "10k"
+      }
+    ]
+  },
+  {
+    "id": "halfX04",
+    "name": "Descending gears",
+    "category": "specific",
+    "goals": [
+      "half"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "half",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Demanding",
+    "focus": "Mixed pace",
+    "purpose": "Practise increasing effort while the duration of each repetition decreases.",
+    "cue": "Run the last two minutes fast but controlled, with enough form to finish cleanly.",
+    "blocks": [
+      {
+        "reps": 1,
+        "seconds": 600,
+        "pace": "half",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 1,
+        "seconds": 480,
+        "pace": "10k",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 1,
+        "seconds": 360,
+        "pace": "10k",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 1,
+        "seconds": 240,
+        "pace": "5k",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 1,
+        "seconds": 120,
+        "pace": "3k",
+        "recovery": 0
+      }
+    ],
+    "note": "30 quality minutes, much of it faster than race pace. A supporting mixed session; avoid within a week of a key race."
+  },
+  {
+    "id": "halfX05",
+    "name": "10K bookends, half-marathon middle",
+    "category": "specific",
+    "goals": [
+      "half"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "half",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Demanding",
+    "focus": "Stamina",
+    "purpose": "Settle into half-marathon rhythm between two quicker efforts.",
+    "cue": "Match the bookends without forcing the middle section faster.",
+    "blocks": [
+      {
+        "reps": 1,
+        "meters": 1600,
+        "pace": "10k",
+        "recovery": 0,
+        "afterMeters": 400
+      },
+      {
+        "reps": 1,
+        "meters": 4800,
+        "pace": "half",
+        "recovery": 0,
+        "afterMeters": 800
+      },
+      {
+        "reps": 1,
+        "meters": 1600,
+        "pace": "10k",
+        "recovery": 0
+      }
+    ],
+    "note": "8 km of quality. The middle portion is HM race rhythm, not automatically physiological threshold."
+  },
+  {
+    "id": "halfX06",
+    "name": "Race rhythm, then one gear quicker",
+    "category": "specific",
+    "goals": [
+      "half"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "half",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Demanding",
+    "focus": "Mixed pace",
+    "purpose": "Keep enough control during sustained race rhythm to lift the pace late.",
+    "cue": "The last kilometre is at current 10K pace; it is not a time trial.",
+    "blocks": [
+      {
+        "reps": 1,
+        "meters": 6000,
+        "pace": "half",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 1000,
+        "pace": "10k",
+        "recovery": 0
+      }
+    ],
+    "note": "7 km continuously at race pace or faster. Use after building to sustained HM blocks; consider total work time before choosing it."
+  },
+  {
+    "id": "halfX07",
+    "name": "Progressive race repeats",
+    "category": "specific",
+    "goals": [
+      "half"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "half",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Demanding",
+    "focus": "Mixed pace",
+    "purpose": "Build effort gradually across short-rest kilometres.",
+    "cue": "Start patiently; the quicker final reps should still feel measured.",
+    "blocks": [
+      {
+        "reps": 3,
+        "meters": 1000,
+        "pace": "half",
+        "recovery": 45,
+        "after": 45
+      },
+      {
+        "reps": 3,
+        "meters": 1000,
+        "pace": "half",
+        "recovery": 45,
+        "after": 45,
+        "paceOffset": -2
+      },
+      {
+        "reps": 2,
+        "meters": 1000,
+        "pace": "10k",
+        "recovery": 45
+      }
+    ],
+    "note": "8 km of quality with brief rest. The pace progression is not a universal threshold prescription; choose fewer work minutes if total duration is too large."
+  },
+  {
+    "id": "halfX08",
+    "name": "Long run with race-pace surges",
+    "category": "specific",
+    "goals": [
+      "half"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "half",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "focus": "Long run",
+    "purpose": "Introduce brief race-effort segments inside a familiar long run.",
+    "cue": "Return all the way to easy effort between the surges.",
+    "blocks": [
+      {
+        "reps": 1,
+        "seconds": 1200,
+        "pace": "easy",
+        "recovery": 0
+      },
+      {
+        "reps": 7,
+        "seconds": 120,
+        "pace": "half",
+        "recovery": 360
+      },
+      {
+        "reps": 1,
+        "seconds": 1200,
+        "pace": "easy",
+        "recovery": 0
+      }
+    ],
+    "note": "90 minutes total including all easy sections. Appropriate only when that overall long-run duration is already familiar.",
+    "warmup": 0,
+    "cooldown": 0
+  },
+  {
+    "id": "halfX09",
+    "name": "Two race-pace islands",
+    "category": "specific",
+    "goals": [
+      "half"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "half",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Demanding",
+    "focus": "Long run",
+    "purpose": "Practise sustained race rhythm twice while managing growing fatigue.",
+    "cue": "Eat and drink as planned for race day, and keep the easy middle section easy.",
+    "blocks": [
+      {
+        "reps": 1,
+        "seconds": 1800,
+        "pace": "easy",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "seconds": 1200,
+        "pace": "half",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "seconds": 600,
+        "pace": "easy",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "seconds": 1200,
+        "pace": "half",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "seconds": 600,
+        "pace": "easy",
+        "recovery": 0
+      }
+    ],
+    "note": "90 minutes total with 40 at HM pace. For established long-run and race-pace tolerance; do not add another full warmup or cooldown.",
+    "warmup": 0,
+    "cooldown": 0
+  },
+  {
+    "id": "halfX10",
+    "name": "Short race segments, long steady floats",
+    "category": "specific",
+    "goals": [
+      "half"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "half",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Demanding",
+    "focus": "Mixed pace",
+    "purpose": "Practise moving between race rhythm and a deliberately slower sustained float.",
+    "cue": "The longer float stays 25 seconds per kilometre slower than race pace.",
+    "blocks": [
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "half",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 1200,
+        "pace": "half",
+        "recovery": 0,
+        "paceOffset": 25
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "half",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 1200,
+        "pace": "half",
+        "recovery": 0,
+        "paceOffset": 25
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "half",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 1200,
+        "pace": "half",
+        "recovery": 0,
+        "paceOffset": 25
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "half",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 1200,
+        "pace": "half",
+        "recovery": 0,
+        "paceOffset": 25
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "half",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 1200,
+        "pace": "half",
+        "recovery": 0,
+        "paceOffset": 25
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "half",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 1200,
+        "pace": "half",
+        "recovery": 0,
+        "paceOffset": 25
+      }
+    ],
+    "note": "9.6 km continuous work. The floats are not easy recovery and remain part of the quality load.",
+    "summarySteps": [
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "half"
+      },
+      {
+        "reps": 1,
+        "meters": 1200,
+        "pace": "half"
+      }
+    ],
+    "summarySets": 6
+  },
+  {
+    "id": "halfX11",
+    "name": "Race rhythm around faster reps",
+    "category": "specific",
+    "goals": [
+      "half"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "half",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "focus": "Mixed pace",
+    "purpose": "Recover a controlled half-marathon rhythm after a short faster section.",
+    "cue": "The final race-pace block should settle, even if your breathing is initially quicker.",
+    "blocks": [
+      {
+        "reps": 1,
+        "meters": 1600,
+        "pace": "half",
+        "recovery": 0,
+        "afterMeters": 400
+      },
+      {
+        "reps": 2,
+        "meters": 800,
+        "pace": "10k",
+        "recovery": 0,
+        "recoveryMeters": 200,
+        "afterMeters": 200
+      },
+      {
+        "reps": 2,
+        "meters": 400,
+        "pace": "5k",
+        "recovery": 0,
+        "recoveryMeters": 200,
+        "afterMeters": 200
+      },
+      {
+        "reps": 1,
+        "meters": 1600,
+        "pace": "half",
+        "recovery": 0
+      }
+    ],
+    "note": "5.6 km of quality at three paces. The final transition uses 200m easy; do not silently substitute an unrelated timed rest."
+  },
+  {
+    "id": "halfX12",
+    "name": "Quicker start, race-pace settle",
+    "category": "specific",
+    "goals": [
+      "half"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "half",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Demanding",
+    "focus": "Mixed pace",
+    "purpose": "Settle into race rhythm while carrying fatigue from a quicker opening.",
+    "cue": "Slow at the transition and hold steady rather than racing the final section.",
+    "blocks": [
+      {
+        "reps": 1,
+        "meters": 2000,
+        "pace": "10k",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 4000,
+        "pace": "half",
+        "recovery": 0
+      }
+    ],
+    "note": "6 km continuous work. Reserved for established runners; the race-pace portion is still a quality effort."
+  },
+  {
+    "id": "halfX13",
+    "name": "Two progressive waves",
+    "category": "specific",
+    "goals": [
+      "half"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "half",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Demanding",
+    "focus": "Stamina",
+    "purpose": "Manage sustained steady running before two progressively stronger finishes.",
+    "cue": "Start the second wave at marathon rhythm again; the final five minutes stay controlled.",
+    "blocks": [
+      {
+        "reps": 1,
+        "seconds": 900,
+        "pace": "marathon",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "seconds": 300,
+        "pace": "half",
+        "recovery": 0,
+        "after": 240
+      },
+      {
+        "reps": 1,
+        "seconds": 900,
+        "pace": "marathon",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "seconds": 300,
+        "pace": "half",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "seconds": 300,
+        "pace": "10k",
+        "recovery": 0
+      }
+    ],
+    "note": "45 quality minutes plus four easy minutes. These explicit race-pace choices are an adaptation, not interchangeable definitions of threshold."
+  },
+  {
+    "id": "halfX14",
+    "name": "Surge and settle repeats",
+    "category": "specific",
+    "goals": [
+      "half"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "half",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "focus": "Mixed pace",
+    "purpose": "Practise a brief move and then settle back to race rhythm before the repetition ends.",
+    "cue": "Do not wait for the recovery to settle; find half-marathon rhythm again for the final 400.",
+    "blocks": [
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "half",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "10k",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "half",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "half",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "10k",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "half",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "half",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "10k",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "half",
+        "recovery": 0,
+        "after": 120
+      },
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "half",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "10k",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "half",
+        "recovery": 0
+      }
+    ],
+    "note": "6.4 km of quality. Use after establishing both race-pace and quicker-repetition tolerance.",
+    "summarySteps": [
+      {
+        "reps": 1,
+        "meters": 800,
+        "pace": "half"
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "10k"
+      },
+      {
+        "reps": 1,
+        "meters": 400,
+        "pace": "half"
+      }
+    ],
+    "summarySets": 4
+  },
+  {
+    "id": "halfX15",
+    "name": "Long steady, short race rhythm",
+    "category": "specific",
+    "goals": [
+      "half"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "half",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "focus": "Mixed pace",
+    "purpose": "Sustain purposeful running while practising small changes into half-marathon rhythm.",
+    "cue": "Ease back to marathon pace after each faster section; stay in control throughout.",
+    "blocks": [
+      {
+        "reps": 1,
+        "seconds": 600,
+        "pace": "marathon",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "seconds": 300,
+        "pace": "half",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "seconds": 600,
+        "pace": "marathon",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "seconds": 300,
+        "pace": "half",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "seconds": 600,
+        "pace": "marathon",
+        "recovery": 0
+      },
+      {
+        "reps": 1,
+        "seconds": 300,
+        "pace": "half",
+        "recovery": 0
+      }
+    ],
+    "note": "45 continuous quality minutes, including the steadier portions. It is a workout, even though only fifteen minutes use HM pace.",
+    "summarySteps": [
+      {
+        "reps": 1,
+        "seconds": 600,
+        "pace": "marathon"
+      },
+      {
+        "reps": 1,
+        "seconds": 300,
+        "pace": "half"
+      }
+    ],
+    "summarySets": 3
+  },
+  {
+    "id": "xm01",
+    "name": "Marathon strength repeats",
+    "category": "specific",
+    "goals": [
+      "marathon"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "marathon",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "focus": "Stamina",
+    "purpose": "Pace strength.",
+    "cue": "Run about 6 sec/km faster than marathon pace; keep every repeat even.",
+    "blocks": [
+      {
+        "reps": 6,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 1600,
+        "recoveryMeters": 400,
+        "paceOffset": -6
+      }
+    ],
+    "warmup": 900,
+    "cooldown": 600,
+    "summarySteps": [
+      {
+        "reps": 6,
+        "pace": "marathon",
+        "meters": 1600
+      }
+    ]
+  },
+  {
+    "id": "xm02",
+    "name": "Strength climb",
+    "category": "specific",
+    "goals": [
+      "marathon"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "marathon",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Demanding",
+    "focus": "Stamina",
+    "purpose": "Longer aerobic blocks.",
+    "cue": "Hold the same controlled pace as each repetition grows.",
+    "blocks": [
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 2000,
+        "afterMeters": 1000,
+        "paceOffset": -6
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 3000,
+        "afterMeters": 1000,
+        "paceOffset": -6
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 5000,
+        "paceOffset": -6
+      }
+    ],
+    "warmup": 900,
+    "cooldown": 600
+  },
+  {
+    "id": "xm03",
+    "name": "Strength descent",
+    "category": "specific",
+    "goals": [
+      "marathon"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "marathon",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Demanding",
+    "focus": "Stamina",
+    "purpose": "Pacing under fatigue.",
+    "cue": "Start patiently; shorter repetitions do not mean faster running.",
+    "blocks": [
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 5000,
+        "afterMeters": 1000,
+        "paceOffset": -6
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 3000,
+        "afterMeters": 1000,
+        "paceOffset": -6
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 2000,
+        "paceOffset": -6
+      }
+    ],
+    "warmup": 900,
+    "cooldown": 600
+  },
+  {
+    "id": "xm04",
+    "name": "Long\u2013short\u2013long strength",
+    "category": "specific",
+    "goals": [
+      "marathon"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "marathon",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Demanding",
+    "focus": "Stamina",
+    "purpose": "Changing repetition length.",
+    "cue": "Keep the 800 m repetitions at the same pace as the long blocks.",
+    "blocks": [
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 3000,
+        "afterMeters": 800,
+        "paceOffset": -6
+      },
+      {
+        "reps": 4,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 800,
+        "recoveryMeters": 400,
+        "afterMeters": 400,
+        "paceOffset": -6
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 3000,
+        "paceOffset": -6
+      }
+    ],
+    "warmup": 900,
+    "cooldown": 600,
+    "summarySteps": [
+      {
+        "reps": 1,
+        "meters": 3000
+      },
+      {
+        "reps": 4,
+        "meters": 800
+      },
+      {
+        "reps": 1,
+        "meters": 3000
+      }
+    ]
+  },
+  {
+    "id": "xm05",
+    "name": "Broken marathon sets",
+    "category": "specific",
+    "goals": [
+      "marathon"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "marathon",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Demanding",
+    "focus": "Race rhythm",
+    "purpose": "Repeatable marathon rhythm.",
+    "cue": "Jog for 60 sec within each set and 4 min between sets.",
+    "blocks": [
+      {
+        "reps": 4,
+        "pace": "marathon",
+        "recovery": 60,
+        "meters": 1000,
+        "after": 240
+      },
+      {
+        "reps": 4,
+        "pace": "marathon",
+        "recovery": 60,
+        "meters": 1000,
+        "after": 240
+      },
+      {
+        "reps": 4,
+        "pace": "marathon",
+        "recovery": 60,
+        "meters": 1000
+      }
+    ],
+    "warmup": 900,
+    "cooldown": 600,
+    "summarySteps": [
+      {
+        "reps": 4,
+        "meters": 1000,
+        "pace": "marathon"
+      }
+    ],
+    "summarySets": 3,
+    "note": "12 km at marathon pace: build up from shorter marathon sessions first."
+  },
+  {
+    "id": "xm06",
+    "name": "Marathon ladder with floats",
+    "category": "specific",
+    "goals": [
+      "marathon"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "marathon",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Demanding",
+    "focus": "Mixed pace",
+    "purpose": "Marathon rhythm through floats.",
+    "cue": "Float 30 sec/km slower than marathon pace; stay smooth as blocks grow.",
+    "blocks": [
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 2000
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 1000,
+        "paceOffset": 30
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 3000
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 1000,
+        "paceOffset": 30
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 4000
+      }
+    ],
+    "warmup": 900,
+    "cooldown": 600,
+    "summarySteps": [
+      {
+        "reps": 1,
+        "meters": 2000
+      },
+      {
+        "reps": 1,
+        "meters": 1000
+      },
+      {
+        "reps": 1,
+        "meters": 3000
+      },
+      {
+        "reps": 1,
+        "meters": 1000
+      },
+      {
+        "reps": 1,
+        "meters": 4000
+      }
+    ]
+  },
+  {
+    "id": "xm07",
+    "name": "Alternating tempo blocks",
+    "category": "specific",
+    "goals": [
+      "marathon"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "marathon",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Demanding",
+    "focus": "Mixed pace",
+    "purpose": "Controlled pace changes.",
+    "cue": "Alternate smoothly: marathon pace minus 6 sec/km, then 10K pace plus 6 sec/km.",
+    "blocks": [
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 1000,
+        "paceOffset": -6
+      },
+      {
+        "reps": 1,
+        "pace": "10k",
+        "recovery": 0,
+        "meters": 1000,
+        "paceOffset": 6
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 1000,
+        "paceOffset": -6
+      },
+      {
+        "reps": 1,
+        "pace": "10k",
+        "recovery": 0,
+        "meters": 1000,
+        "paceOffset": 6
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 1000,
+        "paceOffset": -6
+      },
+      {
+        "reps": 1,
+        "pace": "10k",
+        "recovery": 0,
+        "meters": 1000,
+        "paceOffset": 6
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 1000,
+        "paceOffset": -6
+      },
+      {
+        "reps": 1,
+        "pace": "10k",
+        "recovery": 0,
+        "meters": 1000,
+        "paceOffset": 6
+      }
+    ],
+    "warmup": 900,
+    "cooldown": 600,
+    "summarySteps": [
+      {
+        "reps": 1,
+        "meters": 1000,
+        "pace": "marathon"
+      },
+      {
+        "reps": 1,
+        "meters": 1000,
+        "pace": "10k"
+      }
+    ],
+    "summarySets": 4,
+    "note": "Advanced continuous session; slower kilometres are still quality work."
+  },
+  {
+    "id": "xm08",
+    "name": "Marathon over\u2013unders",
+    "category": "specific",
+    "goals": [
+      "marathon"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "marathon",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Demanding",
+    "focus": "Mixed pace",
+    "purpose": "Settling after pace changes.",
+    "cue": "Change pace gradually; the slower kilometre stays controlled and steady.",
+    "blocks": [
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 1000,
+        "paceOffset": -6
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 1000,
+        "paceOffset": 20
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 1000,
+        "paceOffset": -6
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 1000,
+        "paceOffset": 20
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 1000,
+        "paceOffset": -6
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 1000,
+        "paceOffset": 20
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 1000,
+        "paceOffset": -6
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 1000,
+        "paceOffset": 20
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 1000,
+        "paceOffset": -6
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 1000,
+        "paceOffset": 20
+      }
+    ],
+    "warmup": 900,
+    "cooldown": 600,
+    "summarySteps": [
+      {
+        "reps": 1,
+        "meters": 1000,
+        "pace": "marathon"
+      },
+      {
+        "reps": 1,
+        "meters": 1000,
+        "pace": "marathon"
+      }
+    ],
+    "summarySets": 5
+  },
+  {
+    "id": "xm09",
+    "name": "Marathon thirds",
+    "category": "specific",
+    "goals": [
+      "marathon"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "marathon",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "focus": "Long run",
+    "purpose": "Patient progression.",
+    "cue": "Begin easy, settle 20 sec/km slower than marathon pace, then reach marathon pace.",
+    "blocks": [
+      {
+        "reps": 1,
+        "pace": "easy",
+        "recovery": 0,
+        "meters": 5000
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 5000,
+        "paceOffset": 20
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 5000
+      }
+    ],
+    "warmup": 0,
+    "cooldown": 300
+  },
+  {
+    "id": "xm10",
+    "name": "Four-stage marathon cutdown",
+    "category": "specific",
+    "goals": [
+      "marathon"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "marathon",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "focus": "Mixed pace",
+    "purpose": "Gradual pace control.",
+    "cue": "Take 10 sec/km off each 2 km block; finish at marathon pace.",
+    "blocks": [
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 2000,
+        "paceOffset": 30
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 2000,
+        "paceOffset": 20
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 2000,
+        "paceOffset": 10
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 2000
+      }
+    ],
+    "warmup": 900,
+    "cooldown": 600
+  },
+  {
+    "id": "xm11",
+    "name": "Sustained marathon rehearsal",
+    "category": "specific",
+    "goals": [
+      "marathon"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "marathon",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Demanding",
+    "focus": "Race rhythm",
+    "purpose": "Sustained race rhythm.",
+    "cue": "Settle early and practise your familiar race-day drinks and fuelling.",
+    "blocks": [
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 16000
+      }
+    ],
+    "warmup": 900,
+    "cooldown": 600,
+    "note": "A substantial rehearsal for established marathon training, not a fitness test.",
+    "summarySteps": [
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "meters": 16000
+      }
+    ]
+  },
+  {
+    "id": "xm12",
+    "name": "Two marathon windows",
+    "category": "specific",
+    "goals": [
+      "marathon"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "marathon",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Demanding",
+    "focus": "Long run",
+    "purpose": "Marathon pace late in a run.",
+    "cue": "Keep both 4 km blocks even; let the middle easy section restore control.",
+    "blocks": [
+      {
+        "reps": 1,
+        "pace": "easy",
+        "recovery": 0,
+        "meters": 8000
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 4000
+      },
+      {
+        "reps": 1,
+        "pace": "easy",
+        "recovery": 0,
+        "meters": 2000
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 4000
+      },
+      {
+        "reps": 1,
+        "pace": "easy",
+        "recovery": 0,
+        "meters": 2000
+      }
+    ],
+    "warmup": 0,
+    "cooldown": 0,
+    "note": "Use only when 20 km easy long runs are already routine."
+  },
+  {
+    "id": "xm13",
+    "name": "Double race-pace rehearsal",
+    "category": "specific",
+    "goals": [
+      "marathon"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "marathon",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Demanding",
+    "focus": "Long run",
+    "purpose": "Long race-pace rehearsal.",
+    "cue": "Run both 10 km blocks evenly; take the full 10 min easy recovery.",
+    "blocks": [
+      {
+        "reps": 1,
+        "pace": "easy",
+        "recovery": 0,
+        "meters": 3000
+      },
+      {
+        "reps": 2,
+        "pace": "marathon",
+        "recovery": 600,
+        "meters": 10000
+      },
+      {
+        "reps": 1,
+        "pace": "easy",
+        "recovery": 0,
+        "meters": 2000
+      }
+    ],
+    "warmup": 0,
+    "cooldown": 0,
+    "note": "25 km running plus recovery; reserved for experienced runners with sufficient weekly volume."
+  },
+  {
+    "id": "xm14",
+    "name": "Long run with controlled surges",
+    "category": "specific",
+    "goals": [
+      "marathon"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "marathon",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Demanding",
+    "focus": "Long run",
+    "purpose": "Rhythm changes during endurance.",
+    "cue": "Keep surges at half-marathon effort and jog easily for 5 min between them.",
+    "blocks": [
+      {
+        "reps": 1,
+        "pace": "easy",
+        "recovery": 0,
+        "meters": 8000
+      },
+      {
+        "reps": 7,
+        "pace": "half",
+        "recovery": 300,
+        "seconds": 90
+      },
+      {
+        "reps": 1,
+        "pace": "easy",
+        "recovery": 0,
+        "meters": 2000
+      }
+    ],
+    "warmup": 0,
+    "cooldown": 0,
+    "note": "A long session with quality; allow recovery as you would after a hard workout."
+  },
+  {
+    "id": "xm15",
+    "name": "Marathon rhythm with quick minutes",
+    "category": "specific",
+    "goals": [
+      "marathon"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "marathon",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "focus": "Sharpening",
+    "purpose": "Relaxed speed after marathon pace.",
+    "cue": "Complete the 5 km comfortably; keep the quick minutes relaxed, never sprinted.",
+    "blocks": [
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "meters": 5000,
+        "after": 180
+      },
+      {
+        "reps": 4,
+        "pace": "repetition",
+        "recovery": 60,
+        "seconds": 60
+      }
+    ],
+    "warmup": 900,
+    "cooldown": 600
+  },
+  {
+    "id": "xm16",
+    "name": "Marathon pace with threshold lifts",
+    "category": "specific",
+    "goals": [
+      "marathon"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "marathon",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Demanding",
+    "focus": "Mixed pace",
+    "purpose": "Returning to race rhythm.",
+    "cue": "Lift to threshold for 5 min, then return directly to controlled marathon pace.",
+    "blocks": [
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "seconds": 1800
+      },
+      {
+        "reps": 1,
+        "pace": "threshold",
+        "recovery": 0,
+        "seconds": 300
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "seconds": 1800
+      },
+      {
+        "reps": 1,
+        "pace": "threshold",
+        "recovery": 0,
+        "seconds": 300
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "seconds": 300
+      }
+    ],
+    "warmup": 900,
+    "cooldown": 600,
+    "note": "100 min total, including 65 min at marathon pace and 10 min at threshold."
+  },
+  {
+    "id": "xm17",
+    "name": "Threshold\u2013marathon sandwich",
+    "category": "specific",
+    "goals": [
+      "marathon"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "marathon",
+    "recovery": 0,
+    "recoveryType": "easy jog",
+    "level": "Demanding",
+    "focus": "Stamina",
+    "purpose": "Marathon rhythm between firm efforts.",
+    "cue": "Keep both threshold blocks controlled; settle fully into marathon pace between them.",
+    "blocks": [
+      {
+        "reps": 1,
+        "pace": "threshold",
+        "recovery": 0,
+        "seconds": 480
+      },
+      {
+        "reps": 1,
+        "pace": "marathon",
+        "recovery": 0,
+        "seconds": 1800
+      },
+      {
+        "reps": 1,
+        "pace": "threshold",
+        "recovery": 0,
+        "seconds": 480
+      }
+    ],
+    "warmup": 900,
+    "cooldown": 600,
+    "note": "16 min threshold plus 30 min marathon pace; finish with clear control."
   }
 ];
 export function paceRange(score:number,key:PaceKey):[number,number]{
@@ -1335,7 +5639,7 @@ export function paceRange(score:number,key:PaceKey):[number,number]{
  if(key==='repetition'){const p=raceSeconds(score,1609.344)/1.609344;return[p,p+2];}
  const r=RACES.find(r=>r.id===key)!;const p=raceSeconds(score,r.meters)/(r.meters/1000);return[p,p+2];
 }
-export const PACE_LABELS:Record<PaceKey,string>={easy:'Easy',subShort:'Short sub-threshold',subMedium:'Sub-threshold',subLong:'Long sub-threshold',threshold:'Threshold',interval:'Aerobic power',repetition:'Mile rhythm','5k':'5K pace','10k':'10K pace',half:'Half-marathon pace',marathon:'Marathon pace','1500':'1500 m pace','3k':'3K pace'};
+export const PACE_LABELS:Record<PaceKey,string>={easy:'Easy',subShort:'Short sub-threshold',subMedium:'Sub-threshold',subLong:'Long sub-threshold',threshold:'Threshold',interval:'Aerobic power',repetition:'Fast rhythm','5k':'5K pace','10k':'10K pace',half:'Half-marathon pace',marathon:'Marathon pace','1500':'1500 m pace','3k':'3K pace'};
 export function workoutBlocks(w:Workout):WorkBlock[]{return w.blocks??[{reps:w.reps,meters:w.meters,seconds:w.seconds,pace:w.pace,recovery:w.recovery,recoveryMeters:w.recoveryMeters,recoveryRatio:w.recoveryRatio}];}
 export function blockMetrics(b:WorkBlock,score:number){
  const range=paceRange(score,b.pace).map(p=>p+(b.paceOffset??0)) as [number,number],mid=(range[0]+range[1])/2;
@@ -1357,5 +5661,25 @@ export function workoutMetrics(w:Workout,score:number){
  blocks.forEach((b,i)=>{const m=blockMetrics(b,score);workSeconds+=m.workSeconds;workMeters+=m.workMeters;if(b.pace!=='easy'){qualityMeters+=m.workMeters;qualitySeconds+=m.workSeconds;longestRepSeconds=Math.max(longestRepSeconds,m.repSeconds)}if(b.pace===w.pace){specificMeters+=m.workMeters;specificSeconds+=m.workSeconds}recoverySeconds+=(b.reps-1)*recoveryDuration(b,score)+(i<blocks.length-1?transitionDuration(b,score):0);});
  return {...first,range:paceRange(score,w.pace),workSeconds,workMeters,recoverySeconds,qualityMeters,qualitySeconds,specificMeters,specificSeconds,longestRepSeconds,totalSeconds:workSeconds+recoverySeconds+(w.warmup??900)+(w.cooldown??600)};
 }
-export function prescription(w:Workout):string{return w.prescription??`${w.reps>1?w.reps+' × ':''}${w.meters?w.meters.toLocaleString('en-GB')+' m':w.seconds!<60?w.seconds+' sec':w.seconds!/60+' min'}`;}
-export function recoveryLabel(w:Workout):string{return w.recoverySummary??(w.recoveryMeters?`${w.recoveryMeters} m jog`:w.recoveryRatio?`${w.recoveryRatio===1?'Equal':'2 ×'} rep time`:(w.recovery?`${formatTime(w.recovery)} ${w.recoveryType==='walk / jog'?'walk/jog':'jog'}`:'Continuous'));}
+export type Unit='km'|'mi';
+export function distanceLabel(meters:number,unit:Unit='km'):string {
+ const value=meters/(unit==='km'?1000:1609.344);
+ return `${Number(value.toFixed(unit==='km'?2:3)).toLocaleString('en-GB',{maximumFractionDigits:unit==='km'?2:3})} ${unit}`;
+}
+export function stepLabel(b:{reps:number;meters?:number;seconds?:number},unit:Unit='km'):string {
+ const amount=b.meters!==undefined?distanceLabel(b.meters,unit):b.seconds!<60?`${b.seconds} sec`:`${Number((b.seconds!/60).toFixed(2))} min`;
+ return `${b.reps>1?`${b.reps} × `:''}${amount}`;
+}
+export function prescription(w:Workout,unit:Unit='km'):string {
+ if(w.summarySteps){const steps=w.summarySteps.map(b=>stepLabel(b,unit)+(b.pace==='easy'?' easy':'')).join(' + ');return w.summarySets?`${w.summarySets} × (${steps})`:steps;}
+ if(w.blocks)return w.blocks.map(b=>stepLabel(b,unit)+(b.pace==='easy'?' easy':'')).join(' + ');
+ return stepLabel(w,unit);
+}
+export function recoveryLabel(w:Workout,unit:Unit='km'):string {
+ if(w.blocks){const rests=workoutBlocks(w).flatMap((b,i)=>[...(b.reps>1?[b.recoveryMeters?`${distanceLabel(b.recoveryMeters,unit)} jog`:b.recoveryRatio?`${b.recoveryRatio===1?'Equal':'2 ×'} rep time`:b.recovery?`${formatTime(b.recovery)} recovery`:'']:[]),...(i<w.blocks!.length-1?[b.afterMeters?`${distanceLabel(b.afterMeters,unit)} jog`:b.after?`${formatTime(b.after)} reset`:'']:[])]).filter(Boolean);const unique=[...new Set(rests)];return unique.length===0?'Continuous':unique.length===1?unique[0]:'Varied recovery';}
+ return w.recoveryMeters?`${distanceLabel(w.recoveryMeters,unit)} jog`:w.recoveryRatio?`${w.recoveryRatio===1?'Equal':'2 ×'} rep time`:w.recovery?`${formatTime(w.recovery)} ${w.recoveryType==='walk / jog'?'walk/jog':w.recoveryType==='walk'?'walk':'jog'}`:'Continuous';
+}
+
+export function localizeCue(text:string,unit:Unit):string {
+ return text.replace(/(-?\d+(?:\.\d+)?)\s*sec\/km\b/g,(_,n)=>`${Number((Number(n)*(unit==='mi'?1.609344:1)).toFixed(1))} sec/${unit}`).replace(/(\d+(?:\.\d+)?)\s*(km|miles?|mi|m)\b/g,(_,n,u)=>distanceLabel(Number(n)*(u==='km'?1000:u==='m'?1:1609.344),unit));
+}
