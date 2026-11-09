@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {parseTime,vdot,raceSeconds,WORKOUTS,workoutMetrics,workoutBlocks,blockMetrics,recoveryDuration,transitionDuration,paceRange,prescription,recoveryLabel,distanceLabel,localizeCue} from './running.ts';
+import {workoutsForMenu,normalizeMenuSearch} from './menu.ts';
 const score=vdot(5000,1200);
 const get=id=>WORKOUTS.find(w=>w.id===id);
 const metrics=id=>workoutMetrics(get(id),score);
@@ -83,4 +84,32 @@ test('new continuous alternations and walking recoveries preserve their intent',
 });
 test('all final blocks omit a trailing recovery',()=>{
  for(const w of WORKOUTS.filter(w=>w.blocks)){const last=w.blocks.at(-1);assert.ok(!last.after&&!last.afterMeters,w.id);}
+});
+
+test('every race menu exposes all training types without a supporting-tab gate',()=>{
+ for(const goal of ['mile','5k','10k','half','marathon']){
+  const menu=workoutsForMenu(WORKOUTS,goal);
+  for(const category of ['sub','threshold','vo2','speed','specific','easy'])assert.ok(menu.some(w=>w.category===category),`${goal}: ${category} missing`);
+  assert.ok(menu.some(w=>w.id==='s1'));assert.ok(menu.some(w=>w.id==='v1'));
+ }
+});
+test('sub-threshold and VO₂max filters retain the complete shared session library',()=>{
+ for(const goal of ['all','mile','5k','10k','half','marathon']){
+  assert.deepEqual(workoutsForMenu(WORKOUTS,goal,'sub').map(w=>w.id),['s1','s2','s3','s4','s5','s6']);
+  assert.equal(workoutsForMenu(WORKOUTS,goal,'vo2').length,4);
+ }
+});
+test('event filtering keeps unique race sessions and the complete catalogue',()=>{
+ assert.equal(workoutsForMenu(WORKOUTS,'all').length,128);
+ assert.equal(new Set(workoutsForMenu(WORKOUTS,'all').map(w=>w.id)).size,128);
+ for(const [goal,count] of [['mile',20],['5k',21],['10k',21],['half',22],['marathon',24]]){
+  const specific=workoutsForMenu(WORKOUTS,goal,'specific');assert.equal(specific.length,count);assert.ok(specific.every(w=>w.goals.includes(goal)));
+  assert.equal(workoutsForMenu(WORKOUTS,goal).length,count+20);
+ }
+});
+
+test('familiar search spelling finds VO2 and sub-threshold labels',()=>{
+ assert.ok(normalizeMenuSearch('VO₂max').includes(normalizeMenuSearch('vo2')));
+ assert.ok(normalizeMenuSearch('Sub-threshold').includes(normalizeMenuSearch('sub t')));
+ assert.equal(normalizeMenuSearch('  Race–specific  '),'race specific');
 });

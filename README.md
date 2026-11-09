@@ -6,7 +6,7 @@ A focused running-session menu based on current race fitness.
 
 Enter a recent race result, estimate VDOT, and explore key sessions for your race. There are **108 dedicated key sessions** plus **20 supporting sessions**. The dedicated menus contain 20 sessions for 1500 m / mile, 21 for 5K, 21 for 10K, 22 for half marathon and 24 for marathon.
 
-The interface focuses on finding and executing workouts: race selection, focus, session load, total duration, search and sorting. Each detail view contains the calculated prescription, a session profile, exact block paces, rep splits, recoveries and easy preparation. Research and rationale pages are intentionally absent from the product.
+The image-free cream and lime interface puts all six workout types directly in the main menu: sub-threshold, threshold, VO₂max, speed and economy, race-specific, and easy and endurance. Choose a distance, then a type. All 20 shared training sessions remain accessible at every distance; the selected event filters the race-specific sessions. Search is always visible, while load, total duration and sorting sit behind an optional Filters control. Each detail view contains the calculated prescription, a session profile, exact block paces, rep splits, recoveries and easy preparation. Research and rationale pages are intentionally absent from the product.
 
 ## Units
 
@@ -32,10 +32,10 @@ The build runs TypeScript and prepares GitHub Pages output in the repository roo
 
 - App.tsx: calculator, filters, cards and streamlined session view.
 - running.ts: race-performance model, unit helpers and 128 structured sessions.
-- styles.css: responsive visual system and reduced-motion support.
+- styles.css / details.css: responsive visual system, workout instructions and reduced-motion support.
+- menu.ts: event/type selection and normalized search.
 - running.test.mjs: performance, unit conversion, summary consistency and recovery checks.
-- running-campaign-male.webp: optimized original campaign visual.
-- ASSETS.md: image provenance.
+- The hero uses an animated SVG track, with a pause control and reduced-motion preference support. Cards, workout profiles and dialogs use brief entry and hover transitions. Photographic campaign assets are archived and are not imported or downloaded by the website.
 - CATALOGUE-REVIEW.md: internal research and adaptation ledger, outside the browser bundle.
 
 ## Calculation assumptions
