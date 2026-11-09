@@ -6,6 +6,8 @@ Enter a race distance and finish time to estimate VDOT. Choose a target distance
 
 ## Website
 
+[Open Pace Menu](https://marcosmanso1.github.io/pace-menu/)
+
 Hosted by GitHub Pages from the `main` branch, repository root. No server, API keys, account creation, database or ChatGPT subscription is needed to use the website.
 
 The library contains 45 fixed workouts, including race-pace ladders, mixed-distance sets, easy floats and a marathon fast-finish run. Race menus lead with their own sessions, followed by selected foundations. This is a workout menu, not an automatically prescribed weekly training plan.
@@ -15,13 +17,14 @@ The library contains 45 fixed workouts, including race-pace ladders, mixed-dista
 Use Node 22.13 or newer.
 
 ```sh
-npm install
+npm ci
 npm run dev
 ```
 
 Before publishing changes:
 
 ```sh
+npm test
 npm run build
 ```
 
