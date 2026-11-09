@@ -10,7 +10,7 @@ The original Sirpoc forum pages were blocked. Attributed reproductions were navi
 
 ## Pacing and workload
 
-The existing short, medium and long bands are retained: estimated one-hour speed plus 5–10, 10–15 and 15–20 sec/km, respectively. These are conservative editorial starting estimates, not a lactate measurement or a formula supplied by a source. Long reps can require slowing further. No fourth physiological zone, universal blood-lactate target, automatic training week or doubles was introduced.
+Following the pace audit, distance prescriptions choose their family by estimated rep duration (under 5, under 8, or 8+ minutes); timed blocks retain their authored family. These editorial boundaries match the timed menu, not measured physiology. The existing short, medium and long starting bands are retained: estimated one-hour speed plus 5–10, 10–15 and 15–20 sec/km, respectively. These are conservative editorial starting estimates, not a lactate measurement or a formula supplied by a source. Long reps can require slowing further. No fourth physiological zone, universal blood-lactate target, automatic training week or doubles was introduced.
 
 Estimated quality minutes and per-rep duration are calculated at the current fitness. For menu comparison only, more than 45 quality minutes or a repetition longer than 15 minutes is labelled Demanding. These are editorial workload flags, not physiological safety cutoffs or personal readiness decisions. A time-based menu remains one click away. Two five-kilometre reps mean exactly 10 km of work, and three mean 15 km; no rest follows the last rep.
 

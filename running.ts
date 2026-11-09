@@ -6241,11 +6241,28 @@ export function paceRange(score:number,key:PaceKey):[number,number]{
 }
 export const PACE_LABELS:Record<PaceKey,string>={easy:'Easy',subShort:'Short sub-threshold',subMedium:'Sub-threshold',subLong:'Long sub-threshold',threshold:'Threshold',interval:'Aerobic power',repetition:'Fast rhythm','5k':'5K pace','10k':'10K pace',half:'Half-marathon pace',marathon:'Marathon pace','1500':'1500 m pace','3k':'3K pace'};
 export function workoutBlocks(w:Workout):WorkBlock[]{return w.blocks??[{reps:w.reps,meters:w.meters,seconds:w.seconds,pace:w.pace,recovery:w.recovery,recoveryMeters:w.recoveryMeters,recoveryRatio:w.recoveryRatio}];}
+// Distance-based sub-threshold reps follow their estimated running duration.
+// The 5/8-minute boundaries match this menu's authored timed families; they are
+// editorial comparisons, not physiological thresholds. Timed blocks retain their
+// explicit family, including the deliberately gentler first half of st17.
+export function resolvedPaceKey(b:WorkBlock,score:number):PaceKey {
+ if(b.meters===undefined||!['subShort','subMedium','subLong'].includes(b.pace))return b.pace;
+ let key:PaceKey='subShort';
+ const seconds=(k:PaceKey)=>b.meters!/1000*(paceRange(score,k).reduce((a,c)=>a+c)/2+(b.paceOffset??0));
+ if(seconds(key)>=300)key='subMedium';
+ if(key==='subMedium'&&seconds(key)>=480)key='subLong';
+ return key;
+}
+export function offsetLabel(offset:number,unit:Unit='km'):string {
+ const value=Math.round(Math.abs(offset)*(unit==='mi'?1.609344:1)*10)/10;
+ return `${offset<0?'−':'+'}${value}s/${unit}`;
+}
 export function blockMetrics(b:WorkBlock,score:number){
- const range=paceRange(score,b.pace).map(p=>p+(b.paceOffset??0)) as [number,number],mid=(range[0]+range[1])/2;
+ const paceKey=resolvedPaceKey(b,score);
+ const range=paceRange(score,paceKey).map(p=>p+(b.paceOffset??0)) as [number,number],mid=(range[0]+range[1])/2;
  const repSeconds=b.seconds??b.meters!/1000*mid;
  const repMeters=b.meters??b.seconds!/mid*1000;
- return {range,repSeconds,repMeters,workSeconds:repSeconds*b.reps,workMeters:repMeters*b.reps};
+ return {paceKey,range,repSeconds,repMeters,workSeconds:repSeconds*b.reps,workMeters:repMeters*b.reps};
 }
 export function recoveryDuration(b:WorkBlock,score:number):number {
  if(b.recoveryMeters)return b.recoveryMeters/1000*(paceRange(score,'easy').reduce((a,b)=>a+b)/2);
@@ -6259,7 +6276,7 @@ export function workoutMetrics(w:Workout,score:number){
  const blocks=workoutBlocks(w),first=blockMetrics(blocks[0],score);
  let workSeconds=0,workMeters=0,recoverySeconds=0,qualityMeters=0,qualitySeconds=0,specificMeters=0,specificSeconds=0,longestRepSeconds=0;
  blocks.forEach((b,i)=>{const m=blockMetrics(b,score);workSeconds+=m.workSeconds;workMeters+=m.workMeters;if(b.pace!=='easy'){qualityMeters+=m.workMeters;qualitySeconds+=m.workSeconds;longestRepSeconds=Math.max(longestRepSeconds,m.repSeconds)}if(b.pace===w.pace){specificMeters+=m.workMeters;specificSeconds+=m.workSeconds}recoverySeconds+=(b.reps-1)*recoveryDuration(b,score)+(i<blocks.length-1?transitionDuration(b,score):0);});
- return {...first,range:paceRange(score,w.pace),workSeconds,workMeters,recoverySeconds,qualityMeters,qualitySeconds,specificMeters,specificSeconds,longestRepSeconds,totalSeconds:workSeconds+recoverySeconds+(w.warmup??900)+(w.cooldown??600)};
+ return {...first,range:first.range,workSeconds,workMeters,recoverySeconds,qualityMeters,qualitySeconds,specificMeters,specificSeconds,longestRepSeconds,totalSeconds:workSeconds+recoverySeconds+(w.warmup??900)+(w.cooldown??600)};
 }
 export type Unit='km'|'mi';
 export function distanceLabel(meters:number,unit:Unit='km'):string {
@@ -6281,7 +6298,7 @@ export function recoveryLabel(w:Workout,unit:Unit='km'):string {
 }
 
 export function localizeCue(text:string,unit:Unit):string {
- return text.replace(/(-?\d+(?:\.\d+)?)\s*sec\/km\b/g,(_,n)=>`${Number((Number(n)*(unit==='mi'?1.609344:1)).toFixed(1))} sec/${unit}`).replace(/(\d+(?:\.\d+)?)\s*(km|miles?|mi|m)\b/g,(_,n,u)=>distanceLabel(Number(n)*(u==='km'?1000:u==='m'?1:1609.344),unit));
+ return text.replace(/(-?\d+(?:\.\d+)?)\s*seconds? per kilomet(?:re|er)s?\b/gi,'$1 sec/km').replace(/(-?\d+(?:\.\d+)?)\s*sec\/km\b/g,(_,n)=>`${Number((Number(n)*(unit==='mi'?1.609344:1)).toFixed(1))} sec/${unit}`).replace(/(\d+(?:\.\d+)?)\s*(km|miles?|mi|m)\b/g,(_,n,u)=>distanceLabel(Number(n)*(u==='km'?1000:u==='m'?1:1609.344),unit));
 }
 
 // Editorial workload comparison within the menu, not a physiological safety test.

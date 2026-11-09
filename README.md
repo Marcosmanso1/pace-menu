@@ -44,7 +44,7 @@ The build runs TypeScript and prepares GitHub Pages output in the repository roo
 
 ## Calculation assumptions
 
-VDOT uses the Daniels–Gilbert performance equations. It is a performance estimate, not measured VO2max. Equivalent results assume event-specific preparation and comparable conditions. These training estimates do not reproduce licensed VDOT tables. The sub-threshold bands are estimates rather than measured lactate response.
+VDOT uses the Daniels–Gilbert performance equations. It is a performance estimate, not measured VO2max. Equivalent results assume event-specific preparation and comparable conditions. These training estimates do not reproduce licensed VDOT tables. The sub-threshold bands are editorial starting estimates rather than measured lactate response or a validated Norwegian Singles pace table. Distance-based sub-threshold repetitions select a family from their estimated duration: under 5 minutes, 5 to under 8 minutes, or 8 minutes and longer. These boundaries match the menu’s timed families and are not physiological cutoffs. Explicit timed prescriptions, including the gentler opening of a progression, retain their authored bands. Adjusted race paces show their signed adjustment in the chosen units on both cards and details. See PACE-AUDIT.md for the evidence and limits.
 
 All non-easy running counts towards quality volume, including steady floats. Written easy floats count towards the main set but not quality. Recoveries appear only between efforts. Estimated total time includes separate easy preparation unless it is already embedded. A race result sets the pace, not personal readiness for a demanding workload.
 

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {parseTime,vdot,raceSeconds,WORKOUTS,workoutMetrics,workoutBlocks,blockMetrics,recoveryDuration,transitionDuration,paceRange,prescription,recoveryLabel,distanceLabel,localizeCue,workoutLoad} from './running.ts';
+import {parseTime,vdot,raceSeconds,WORKOUTS,workoutMetrics,workoutBlocks,blockMetrics,recoveryDuration,transitionDuration,paceRange,prescription,recoveryLabel,distanceLabel,localizeCue,workoutLoad,resolvedPaceKey,offsetLabel} from './running.ts';
 import {workoutsForMenu,normalizeMenuSearch,workoutFormat,matchesSubthresholdFormat} from './menu.ts';
 const score=vdot(5000,1200);
 const get=id=>WORKOUTS.find(w=>w.id===id);
@@ -149,4 +149,26 @@ test('fixed-distance sub-threshold doses reflect current fitness without silentl
 test('compact repetitions and distance searches match displayed recipes',()=>{
  assert.equal(normalizeMenuSearch('10x3 min'),normalizeMenuSearch('10 × 3 min'));
  assert.equal(normalizeMenuSearch('2x5km'),normalizeMenuSearch(prescription(get('sd14'),'km')));
+});
+
+
+test('distance sub-threshold reps match timed families at current fitness',()=>{
+ const fast=vdot(5000,900),slow=vdot(5000,1800);
+ assert.equal(resolvedPaceKey(get('sd06'),fast),'subMedium');
+ assert.equal(resolvedPaceKey(get('sd06'),slow),'subLong');
+ assert.deepEqual(blockMetrics(get('sd06'),slow).range,blockMetrics(get('s4'),slow).range);
+ assert.equal(resolvedPaceKey(get('sd07'),fast),'subMedium');
+ assert.equal(resolvedPaceKey(get('sd14'),fast),'subLong');
+ assert.equal(blockMetrics(get('sd06'),slow).repMeters,1600);
+ assert.equal(workoutMetrics(get('sd06'),slow).workMeters,8000);
+ // The deliberately gentler opening of the timed progression is retained.
+ assert.equal(resolvedPaceKey(workoutBlocks(get('st17'))[0],score),'subLong');
+ assert.equal(resolvedPaceKey(workoutBlocks(get('st17'))[1],score),'subMedium');
+});
+test('offset labels and written pace cues convert with selected units',()=>{
+ assert.equal(offsetLabel(-6,'km'),'−6s/km');assert.equal(offsetLabel(-6,'mi'),'−9.7s/mi');
+ assert.equal(offsetLabel(25,'mi'),'+40.2s/mi');
+ assert.match(localizeCue(get('halfX10').cue,'mi'),/40.2 sec\/mi/);
+ assert.doesNotMatch(localizeCue(get('halfX10').cue,'mi'),/kilometre/);
+ assert.deepEqual(workoutMetrics(get('xm01'),score).range,blockMetrics(workoutBlocks(get('xm01'))[0],score).range);
 });
