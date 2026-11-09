@@ -141,92 +141,6 @@ export const WORKOUTS:Workout[]=[
     "seconds": 900
   },
   {
-    "id": "s1",
-    "name": "Short & controlled",
-    "category": "sub",
-    "goals": [
-      "mile",
-      "5k",
-      "10k"
-    ],
-    "reps": 10,
-    "seconds": 180,
-    "pace": "subShort",
-    "recovery": 60,
-    "recoveryType": "easy jog",
-    "level": "Standard",
-    "purpose": "Accumulate aerobic work in short, repeatable blocks.",
-    "cue": "Keep the first rep as relaxed as the last. Finish with something left."
-  },
-  {
-    "id": "s2",
-    "name": "The five-minute rhythm",
-    "category": "sub",
-    "goals": [
-      "10k",
-      "half"
-    ],
-    "reps": 6,
-    "seconds": 300,
-    "pace": "subMedium",
-    "recovery": 60,
-    "recoveryType": "easy jog",
-    "level": "Standard",
-    "purpose": "Build sustained aerobic strength without chasing threshold.",
-    "cue": "Settle into a steady rhythm. Breathing should stay controlled."
-  },
-  {
-    "id": "s3",
-    "name": "Long aerobic blocks",
-    "category": "sub",
-    "goals": [
-      "half",
-      "marathon"
-    ],
-    "reps": 4,
-    "seconds": 480,
-    "pace": "subLong",
-    "recovery": 90,
-    "recoveryType": "easy jog",
-    "level": "Standard",
-    "purpose": "Extend time at a controlled intensity with longer repetitions.",
-    "cue": "Use the slower end of the range first. Avoid a hard finish."
-  },
-  {
-    "id": "s4",
-    "name": "The ten-minute repeat",
-    "category": "sub",
-    "goals": [
-      "marathon"
-    ],
-    "reps": 3,
-    "seconds": 600,
-    "pace": "subLong",
-    "recovery": 90,
-    "recoveryType": "easy jog",
-    "level": "Standard",
-    "purpose": "Practise patient pacing through longer aerobic intervals.",
-    "cue": "This should feel sustainable, with at least one more rep in reserve."
-  },
-  {
-    "id": "s5",
-    "name": "Measured aerobic repeats",
-    "category": "sub",
-    "goals": [
-      "5k",
-      "10k"
-    ],
-    "reps": 6,
-    "meters": 1000,
-    "pace": "subMedium",
-    "recovery": 60,
-    "recoveryType": "easy jog",
-    "level": "Standard",
-    "purpose": "Make controlled aerobic work easy to pace on a measured route.",
-    "cue": "Stay below threshold effort. Choose a timed option if these reps feel too long.",
-    "note": "A fixed-distance option: slower runners may prefer 6 \u00d7 5 min to limit work duration."
-  },
-  {
     "id": "s6",
     "name": "An introduction to control",
     "category": "sub",
@@ -237,13 +151,699 @@ export const WORKOUTS:Workout[]=[
       "marathon"
     ],
     "reps": 6,
-    "seconds": 180,
     "pace": "subShort",
     "recovery": 60,
     "recoveryType": "easy jog",
     "level": "Light",
     "purpose": "Explore sub-threshold effort with a smaller amount of work.",
-    "cue": "Finish comfortable. The aim is control, not exhaustion."
+    "cue": "Finish comfortable. The aim is control, not exhaustion.",
+    "seconds": 180
+  },
+  {
+    "id": "st03",
+    "name": "A little more short work",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 8,
+    "pace": "subShort",
+    "recovery": 60,
+    "recoveryType": "walk / easy jog",
+    "level": "Light",
+    "purpose": "Controlled, repeatable aerobic work with a deliberate fixed dose.",
+    "cue": "Start at the slower end of the estimate. Keep breathing controlled and finish with another repetition in reserve.",
+    "seconds": 180
+  },
+  {
+    "id": "st04",
+    "name": "A measured four-minute start",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 5,
+    "pace": "subShort",
+    "recovery": 60,
+    "recoveryType": "walk / easy jog",
+    "level": "Light",
+    "purpose": "Controlled, repeatable aerobic work with a deliberate fixed dose.",
+    "cue": "Start at the slower end of the estimate. Keep breathing controlled and finish with another repetition in reserve.",
+    "seconds": 240
+  },
+  {
+    "id": "st05",
+    "name": "A first set of medium repeats",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 4,
+    "pace": "subMedium",
+    "recovery": 60,
+    "recoveryType": "walk / easy jog",
+    "level": "Light",
+    "purpose": "Controlled, repeatable aerobic work with a deliberate fixed dose.",
+    "cue": "Start at the slower end of the estimate. Keep breathing controlled and finish with another repetition in reserve.",
+    "seconds": 300
+  },
+  {
+    "id": "st06",
+    "name": "Medium repeats, smaller dose",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 3,
+    "pace": "subMedium",
+    "recovery": 60,
+    "recoveryType": "walk / easy jog",
+    "level": "Light",
+    "purpose": "Controlled, repeatable aerobic work with a deliberate fixed dose.",
+    "cue": "Start at the slower end of the estimate. Keep breathing controlled and finish with another repetition in reserve.",
+    "seconds": 360
+  },
+  {
+    "id": "st07",
+    "name": "The six-minute introduction",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 4,
+    "pace": "subMedium",
+    "recovery": 60,
+    "recoveryType": "walk / easy jog",
+    "level": "Light",
+    "purpose": "Controlled, repeatable aerobic work with a deliberate fixed dose.",
+    "cue": "Start at the slower end of the estimate. Keep breathing controlled and finish with another repetition in reserve.",
+    "seconds": 360
+  },
+  {
+    "id": "st08",
+    "name": "Longer repeats, manageable dose",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 3,
+    "pace": "subLong",
+    "recovery": 90,
+    "recoveryType": "walk / easy jog",
+    "level": "Light",
+    "purpose": "Controlled, repeatable aerobic work with a deliberate fixed dose.",
+    "cue": "Start at the slower end and slow further if effort rises. Keep the long repetitions controlled; do not force the calculated pace.",
+    "seconds": 480
+  },
+  {
+    "id": "st09",
+    "name": "The long-rep introduction",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 2,
+    "pace": "subLong",
+    "recovery": 120,
+    "recoveryType": "walk / easy jog",
+    "level": "Light",
+    "purpose": "Controlled, repeatable aerobic work with a deliberate fixed dose.",
+    "cue": "Start at the slower end and slow further if effort rises. Keep the long repetitions controlled; do not force the calculated pace.",
+    "seconds": 600
+  },
+  {
+    "id": "s1",
+    "name": "Short & controlled",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k"
+    ],
+    "reps": 10,
+    "pace": "subShort",
+    "recovery": 60,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "purpose": "Accumulate aerobic work in short, repeatable blocks.",
+    "cue": "Keep the first rep as relaxed as the last. Finish with something left.",
+    "seconds": 180
+  },
+  {
+    "id": "st10",
+    "name": "The four-minute rhythm",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 8,
+    "pace": "subShort",
+    "recovery": 60,
+    "recoveryType": "walk / easy jog",
+    "level": "Standard",
+    "purpose": "Controlled, repeatable aerobic work with a deliberate fixed dose.",
+    "cue": "Start at the slower end of the estimate. Keep breathing controlled and finish with another repetition in reserve.",
+    "seconds": 240
+  },
+  {
+    "id": "s2",
+    "name": "The five-minute rhythm",
+    "category": "sub",
+    "goals": [
+      "10k",
+      "half"
+    ],
+    "reps": 6,
+    "pace": "subMedium",
+    "recovery": 60,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "purpose": "Build sustained aerobic strength without chasing threshold.",
+    "cue": "Settle into a steady rhythm. Breathing should stay controlled.",
+    "seconds": 300
+  },
+  {
+    "id": "st11",
+    "name": "The classic six-minute set",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 5,
+    "pace": "subMedium",
+    "recovery": 60,
+    "recoveryType": "walk / easy jog",
+    "level": "Standard",
+    "purpose": "Controlled, repeatable aerobic work with a deliberate fixed dose.",
+    "cue": "Start at the slower end of the estimate. Keep breathing controlled and finish with another repetition in reserve.",
+    "seconds": 360
+  },
+  {
+    "id": "st12",
+    "name": "Extended six-minute work",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 6,
+    "pace": "subMedium",
+    "recovery": 90,
+    "recoveryType": "walk / easy jog",
+    "level": "Demanding",
+    "purpose": "Controlled, repeatable aerobic work with a deliberate fixed dose.",
+    "cue": "Start at the slower end of the estimate. Keep breathing controlled and finish with another repetition in reserve.",
+    "seconds": 360
+  },
+  {
+    "id": "s3",
+    "name": "Long aerobic blocks",
+    "category": "sub",
+    "goals": [
+      "half",
+      "marathon"
+    ],
+    "reps": 4,
+    "pace": "subLong",
+    "recovery": 90,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "purpose": "Extend time at a controlled intensity with longer repetitions.",
+    "cue": "Use the slower end of the range first. Avoid a hard finish.",
+    "seconds": 480
+  },
+  {
+    "id": "s4",
+    "name": "The ten-minute repeat",
+    "category": "sub",
+    "goals": [
+      "marathon"
+    ],
+    "reps": 3,
+    "pace": "subLong",
+    "recovery": 90,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "purpose": "Practise patient pacing through longer aerobic intervals.",
+    "cue": "This should feel sustainable, with at least one more rep in reserve.",
+    "seconds": 600
+  },
+  {
+    "id": "st13",
+    "name": "Sustained twelve-minute blocks",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 3,
+    "pace": "subLong",
+    "recovery": 120,
+    "recoveryType": "walk / easy jog",
+    "level": "Demanding",
+    "purpose": "Controlled, repeatable aerobic work with a deliberate fixed dose.",
+    "cue": "Start at the slower end and slow further if effort rises. Keep the long repetitions controlled; do not force the calculated pace.",
+    "seconds": 720
+  },
+  {
+    "id": "st14",
+    "name": "Two sustained aerobic blocks",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 2,
+    "pace": "subLong",
+    "recovery": 120,
+    "recoveryType": "walk / easy jog",
+    "level": "Standard",
+    "purpose": "Controlled, repeatable aerobic work with a deliberate fixed dose.",
+    "cue": "Start at the slower end and slow further if effort rises. Keep the long repetitions controlled; do not force the calculated pace.",
+    "seconds": 900
+  },
+  {
+    "id": "st15",
+    "name": "A larger ten-minute dose",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 4,
+    "pace": "subLong",
+    "recovery": 120,
+    "recoveryType": "walk / easy jog",
+    "level": "Demanding",
+    "purpose": "Controlled, repeatable aerobic work with a deliberate fixed dose.",
+    "cue": "Start at the slower end and slow further if effort rises. Keep the long repetitions controlled; do not force the calculated pace.",
+    "seconds": 600
+  },
+  {
+    "id": "st16",
+    "name": "Long-form controlled endurance",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 3,
+    "pace": "subLong",
+    "recovery": 180,
+    "recoveryType": "walk / easy jog",
+    "level": "Demanding",
+    "purpose": "Controlled, repeatable aerobic work with a deliberate fixed dose.",
+    "cue": "Start at the slower end and slow further if effort rises. Keep the long repetitions controlled; do not force the calculated pace.",
+    "seconds": 900
+  },
+  {
+    "id": "st17",
+    "name": "Two controlled gears",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 1,
+    "seconds": 1,
+    "pace": "subLong",
+    "recovery": 0,
+    "recoveryType": "walk / easy jog",
+    "level": "Demanding",
+    "purpose": "Begin conservatively before settling into a slightly firmer controlled rhythm.",
+    "cue": "The second half is only a small lift in effort. If breathing rises, keep the gentler pace instead.",
+    "blocks": [
+      {
+        "reps": 2,
+        "seconds": 600,
+        "pace": "subLong",
+        "recovery": 120,
+        "after": 120
+      },
+      {
+        "reps": 2,
+        "seconds": 600,
+        "pace": "subMedium",
+        "recovery": 120
+      }
+    ],
+    "summarySteps": [
+      {
+        "reps": 4,
+        "seconds": 600
+      }
+    ]
+  },
+  {
+    "id": "sd01",
+    "name": "Short measured repeats",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 10,
+    "pace": "subShort",
+    "recovery": 60,
+    "recoveryType": "walk / easy jog",
+    "level": "Standard",
+    "purpose": "A fixed-distance alternative for controlled aerobic work.",
+    "cue": "Start at the slower end of the estimate. Keep breathing controlled and finish with another repetition in reserve.",
+    "meters": 600
+  },
+  {
+    "id": "sd02",
+    "name": "A measured short-rep bridge",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 8,
+    "pace": "subShort",
+    "recovery": 60,
+    "recoveryType": "walk / easy jog",
+    "level": "Standard",
+    "purpose": "A fixed-distance alternative for controlled aerobic work.",
+    "cue": "Start at the slower end of the estimate. Keep breathing controlled and finish with another repetition in reserve.",
+    "meters": 800
+  },
+  {
+    "id": "s5",
+    "name": "Measured aerobic repeats",
+    "category": "sub",
+    "goals": [
+      "5k",
+      "10k"
+    ],
+    "reps": 6,
+    "pace": "subMedium",
+    "recovery": 60,
+    "recoveryType": "easy jog",
+    "level": "Standard",
+    "purpose": "Make controlled aerobic work easy to pace on a measured route.",
+    "cue": "Stay below threshold effort. Choose a timed option if these reps feel too long.",
+    "meters": 1000
+  },
+  {
+    "id": "sd04",
+    "name": "More measured aerobic work",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 8,
+    "pace": "subMedium",
+    "recovery": 60,
+    "recoveryType": "walk / easy jog",
+    "level": "Standard",
+    "purpose": "A fixed-distance alternative for controlled aerobic work.",
+    "cue": "Start at the slower end of the estimate. Keep breathing controlled and finish with another repetition in reserve.",
+    "meters": 1000
+  },
+  {
+    "id": "sd05",
+    "name": "The larger repeat set",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 10,
+    "pace": "subMedium",
+    "recovery": 60,
+    "recoveryType": "walk / easy jog",
+    "level": "Demanding",
+    "purpose": "A fixed-distance alternative for controlled aerobic work.",
+    "cue": "Start at the slower end of the estimate. Keep breathing controlled and finish with another repetition in reserve.",
+    "meters": 1000
+  },
+  {
+    "id": "sd06",
+    "name": "Sustained measured rhythm",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 5,
+    "pace": "subMedium",
+    "recovery": 90,
+    "recoveryType": "walk / easy jog",
+    "level": "Standard",
+    "purpose": "A fixed-distance alternative for controlled aerobic work.",
+    "cue": "Start at the slower end of the estimate. Keep breathing controlled and finish with another repetition in reserve.",
+    "meters": 1600
+  },
+  {
+    "id": "sd07",
+    "name": "Controlled long repetitions",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 4,
+    "pace": "subLong",
+    "recovery": 90,
+    "recoveryType": "walk / easy jog",
+    "level": "Standard",
+    "purpose": "A fixed-distance alternative for controlled aerobic work.",
+    "cue": "Start at the slower end and slow further if effort rises. Keep the long repetitions controlled; do not force the calculated pace.",
+    "meters": 2000
+  },
+  {
+    "id": "sd08",
+    "name": "A larger long-rep set",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 5,
+    "pace": "subLong",
+    "recovery": 90,
+    "recoveryType": "walk / easy jog",
+    "level": "Demanding",
+    "purpose": "A fixed-distance alternative for controlled aerobic work.",
+    "cue": "Start at the slower end and slow further if effort rises. Keep the long repetitions controlled; do not force the calculated pace.",
+    "meters": 2000
+  },
+  {
+    "id": "sd09",
+    "name": "The sustained-block bridge",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 3,
+    "pace": "subLong",
+    "recovery": 120,
+    "recoveryType": "walk / easy jog",
+    "level": "Standard",
+    "purpose": "A fixed-distance alternative for controlled aerobic work.",
+    "cue": "Start at the slower end and slow further if effort rises. Keep the long repetitions controlled; do not force the calculated pace.",
+    "meters": 2500
+  },
+  {
+    "id": "sd10",
+    "name": "Classic long aerobic repeats",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 3,
+    "pace": "subLong",
+    "recovery": 120,
+    "recoveryType": "walk / easy jog",
+    "level": "Demanding",
+    "purpose": "A fixed-distance alternative for controlled aerobic work.",
+    "cue": "Start at the slower end and slow further if effort rises. Keep the long repetitions controlled; do not force the calculated pace.",
+    "meters": 3000
+  },
+  {
+    "id": "sd11",
+    "name": "A substantial aerobic set",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 4,
+    "pace": "subLong",
+    "recovery": 120,
+    "recoveryType": "walk / easy jog",
+    "level": "Demanding",
+    "purpose": "A fixed-distance alternative for controlled aerobic work.",
+    "cue": "Start at the slower end and slow further if effort rises. Keep the long repetitions controlled; do not force the calculated pace.",
+    "meters": 3000
+  },
+  {
+    "id": "sd12",
+    "name": "Two extended controlled blocks",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 2,
+    "pace": "subLong",
+    "recovery": 120,
+    "recoveryType": "walk / easy jog",
+    "level": "Demanding",
+    "purpose": "A fixed-distance alternative for controlled aerobic work.",
+    "cue": "Start at the slower end and slow further if effort rises. Keep the long repetitions controlled; do not force the calculated pace.",
+    "meters": 4000
+  },
+  {
+    "id": "sd13",
+    "name": "Extended aerobic endurance",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 3,
+    "pace": "subLong",
+    "recovery": 180,
+    "recoveryType": "walk / easy jog",
+    "level": "Demanding",
+    "purpose": "A fixed-distance alternative for controlled aerobic work.",
+    "cue": "Start at the slower end and slow further if effort rises. Keep the long repetitions controlled; do not force the calculated pace.",
+    "meters": 4000
+  },
+  {
+    "id": "sd14",
+    "name": "Long controlled repetitions",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 2,
+    "pace": "subLong",
+    "recovery": 180,
+    "recoveryType": "walk / easy jog",
+    "level": "Demanding",
+    "purpose": "A fixed-distance alternative for controlled aerobic work.",
+    "cue": "Start at the slower end and slow further if effort rises. Keep the long repetitions controlled; do not force the calculated pace.",
+    "meters": 5000
+  },
+  {
+    "id": "sd15",
+    "name": "The extended endurance set",
+    "category": "sub",
+    "goals": [
+      "mile",
+      "5k",
+      "10k",
+      "half",
+      "marathon"
+    ],
+    "reps": 3,
+    "pace": "subLong",
+    "recovery": 180,
+    "recoveryType": "walk / easy jog",
+    "level": "Demanding",
+    "purpose": "A fixed-distance alternative for controlled aerobic work.",
+    "cue": "Start at the slower end and slow further if effort rises. Keep the long repetitions controlled; do not force the calculated pace.",
+    "meters": 5000
   },
   {
     "id": "t1",
@@ -5677,9 +6277,16 @@ export function prescription(w:Workout,unit:Unit='km'):string {
 }
 export function recoveryLabel(w:Workout,unit:Unit='km'):string {
  if(w.blocks){const rests=workoutBlocks(w).flatMap((b,i)=>[...(b.reps>1?[b.recoveryMeters?`${distanceLabel(b.recoveryMeters,unit)} jog`:b.recoveryRatio?`${b.recoveryRatio===1?'Equal':'2 ×'} rep time`:b.recovery?`${formatTime(b.recovery)} recovery`:'']:[]),...(i<w.blocks!.length-1?[b.afterMeters?`${distanceLabel(b.afterMeters,unit)} jog`:b.after?`${formatTime(b.after)} reset`:'']:[])]).filter(Boolean);const unique=[...new Set(rests)];return unique.length===0?'Continuous':unique.length===1?unique[0]:'Varied recovery';}
- return w.recoveryMeters?`${distanceLabel(w.recoveryMeters,unit)} jog`:w.recoveryRatio?`${w.recoveryRatio===1?'Equal':'2 ×'} rep time`:w.recovery?`${formatTime(w.recovery)} ${w.recoveryType==='walk / jog'?'walk/jog':w.recoveryType==='walk'?'walk':'jog'}`:'Continuous';
+ return w.recoveryMeters?`${distanceLabel(w.recoveryMeters,unit)} jog`:w.recoveryRatio?`${w.recoveryRatio===1?'Equal':'2 ×'} rep time`:w.recovery?`${formatTime(w.recovery)} ${w.recoveryType==='walk / easy jog'?'walk/easy jog':w.recoveryType==='walk / jog'?'walk/jog':w.recoveryType==='walk'?'walk':'jog'}`:'Continuous';
 }
 
 export function localizeCue(text:string,unit:Unit):string {
  return text.replace(/(-?\d+(?:\.\d+)?)\s*sec\/km\b/g,(_,n)=>`${Number((Number(n)*(unit==='mi'?1.609344:1)).toFixed(1))} sec/${unit}`).replace(/(\d+(?:\.\d+)?)\s*(km|miles?|mi|m)\b/g,(_,n,u)=>distanceLabel(Number(n)*(u==='km'?1000:u==='m'?1:1609.344),unit));
+}
+
+// Editorial workload comparison within the menu, not a physiological safety test.
+// A fixed-distance dose can be much longer for a runner with a slower race result.
+export function workoutLoad(workout:Workout,metrics:{qualitySeconds:number;longestRepSeconds:number}):Workout['level']{
+ if(workout.category==='sub'&&(metrics.qualitySeconds>45*60||metrics.longestRepSeconds>15*60))return 'Demanding';
+ return workout.level;
 }

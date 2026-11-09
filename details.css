@@ -119,3 +119,11 @@ dialog::backdrop{background:#14291b99;backdrop-filter:blur(8px)}
 .block-main strong{font-size:12px}
 .block-pace strong{font-size:10px}
 .block-main>div>span{font-size:7px}}
+
+.sub-detail-dose{border:1px solid #dce5cd;border-radius:8px;padding:18px;margin:-6px 0 25px;background:#f2f6e9}
+.sub-detail-dose .section-label{font-size:6px;letter-spacing:.8px;color:#84966d}
+.sub-detail-dose strong{display:block;font:13px var(--mono);font-weight:400;letter-spacing:-.3px;line-height:1.7;margin-top:9px}
+.sub-detail-dose p{font-size:10px;line-height:1.8;color:#768963;margin-top:8px;max-width:550px}
+.sub-detail-dose button{display:flex;align-items:center;gap:9px;background:none;padding:0;color:#526a39;font-size:10px;margin-top:15px;text-align:left}
+.sub-detail-dose button:hover{text-decoration:underline;text-underline-offset:4px}
+@media(max-width:740px){.sub-detail-dose{padding:15px}.sub-detail-dose strong{font-size:11px}.sub-detail-dose .section-label{font-size:6px;line-height:1.8}}

@@ -12,3 +12,19 @@
 .card-heading h3{color:#788d66}.card-recovery>span{font-size:7px;color:#8ba174}.card-recovery strong{color:#718e55}.card-bottom>span:nth-child(2){font-size:9px;color:#869f6e}.pace-tags>span{color:#81996b}.collection-heading p{color:#7d9169}
 
 .motion-toggle{width:24px;height:24px;padding:6px}.motion-toggle>svg{width:12px;height:12px}@media(max-width:740px){.fitness-instrument{height:156px}}
+
+.sub-format-control{border:1px solid #d8e3c7;background:#eef3e3;border-radius:10px;padding:20px 22px;margin:22px 0 5px}
+.sub-format-top{display:flex;align-items:center;justify-content:space-between;gap:18px}
+.sub-format-top .section-label{font-size:7px;letter-spacing:1px;color:#738659}
+.sub-format-top p{font-size:14px;letter-spacing:-.2px;margin-top:8px}
+.format-options{display:flex;flex-shrink:0;gap:3px;padding:4px;background:#e4ecd5;border:1px solid #d8e2c7;border-radius:7px}
+.format-options button{display:flex;align-items:center;gap:8px;padding:10px 12px;background:none;border-radius:4px;font-size:10px;color:#72835f;transition:background .18s,color .18s}
+.format-options button small{font:8px var(--mono);opacity:.7}
+.format-options button[aria-pressed=true]{background:#fff;color:#35482a;box-shadow:0 1px 5px #263c1510}
+.format-options button:hover{color:#283b20}
+.sub-effort-hint{font-size:10px;color:#70835d;line-height:1.8;margin-top:15px;padding-top:12px;border-top:1px solid #dce5cd}
+.sub-dose{display:flex;align-items:center;gap:7px;color:#74865f;font:8px var(--mono);margin:-4px 0 15px;flex-wrap:wrap}
+.sub-dose>i{display:block;width:2px;height:2px;background:#a5b392;border-radius:50%;margin:0 2px}
+@media(max-width:1050px){.sub-format-top{align-items:flex-start;flex-direction:column;gap:15px}.format-options{align-self:stretch}.format-options button{flex:1;justify-content:center}}
+@media(max-width:740px){.sub-format-control{padding:18px;margin-top:19px}.sub-format-top p{font-size:14px}.format-options button{font-size:11px;padding:12px 10px}.sub-effort-hint{font-size:10px}.sub-dose{font-size:8px;gap:6px}}
+@media(prefers-reduced-motion:no-preference){.sub-format-control{animation:enter-soft .22s ease both}}

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {parseTime,vdot,raceSeconds,WORKOUTS,workoutMetrics,workoutBlocks,blockMetrics,recoveryDuration,transitionDuration,paceRange,prescription,recoveryLabel,distanceLabel,localizeCue} from './running.ts';
-import {workoutsForMenu,normalizeMenuSearch} from './menu.ts';
+import {parseTime,vdot,raceSeconds,WORKOUTS,workoutMetrics,workoutBlocks,blockMetrics,recoveryDuration,transitionDuration,paceRange,prescription,recoveryLabel,distanceLabel,localizeCue,workoutLoad} from './running.ts';
+import {workoutsForMenu,normalizeMenuSearch,workoutFormat,matchesSubthresholdFormat} from './menu.ts';
 const score=vdot(5000,1200);
 const get=id=>WORKOUTS.find(w=>w.id===id);
 const metrics=id=>workoutMetrics(get(id),score);
@@ -49,7 +49,7 @@ test('the advanced 10K rehearsal preserves 5-minute recovery',()=>{
  assert.equal(metrics('10c').workMeters,9000);assert.equal(metrics('10c').recoverySeconds,600);assert.equal(get('10c').level,'Demanding');
 });
 test('the expanded catalogue has valid IDs and exclusively metric-native definitions',()=>{
- assert.equal(WORKOUTS.length,128);assert.equal(new Set(WORKOUTS.map(w=>w.id)).size,128);
+ assert.equal(WORKOUTS.length,157);assert.equal(new Set(WORKOUTS.map(w=>w.id)).size,157);
  for(const w of WORKOUTS){assert.ok(!/mile|kilomet|\bkm\b/i.test(w.name),w.name);for(const b of workoutBlocks(w))if(b.meters)assert.equal(Number.isInteger(b.meters),true,w.id);}
 });
 test('race menus have genuinely distinct core sessions',()=>{
@@ -95,16 +95,17 @@ test('every race menu exposes all training types without a supporting-tab gate',
 });
 test('sub-threshold and VO₂max filters retain the complete shared session library',()=>{
  for(const goal of ['all','mile','5k','10k','half','marathon']){
-  assert.deepEqual(workoutsForMenu(WORKOUTS,goal,'sub').map(w=>w.id),['s1','s2','s3','s4','s5','s6']);
+  const sub=workoutsForMenu(WORKOUTS,goal,'sub');assert.equal(sub.length,35);
+  for(const id of ['s1','s2','s3','s4','s5','s6'])assert.ok(sub.some(w=>w.id===id));
   assert.equal(workoutsForMenu(WORKOUTS,goal,'vo2').length,4);
  }
 });
 test('event filtering keeps unique race sessions and the complete catalogue',()=>{
- assert.equal(workoutsForMenu(WORKOUTS,'all').length,128);
- assert.equal(new Set(workoutsForMenu(WORKOUTS,'all').map(w=>w.id)).size,128);
+ assert.equal(workoutsForMenu(WORKOUTS,'all').length,157);
+ assert.equal(new Set(workoutsForMenu(WORKOUTS,'all').map(w=>w.id)).size,157);
  for(const [goal,count] of [['mile',20],['5k',21],['10k',21],['half',22],['marathon',24]]){
   const specific=workoutsForMenu(WORKOUTS,goal,'specific');assert.equal(specific.length,count);assert.ok(specific.every(w=>w.goals.includes(goal)));
-  assert.equal(workoutsForMenu(WORKOUTS,goal).length,count+20);
+  assert.equal(workoutsForMenu(WORKOUTS,goal).length,count+49);
  }
 });
 
@@ -112,4 +113,40 @@ test('familiar search spelling finds VO2 and sub-threshold labels',()=>{
  assert.ok(normalizeMenuSearch('VO₂max').includes(normalizeMenuSearch('vo2')));
  assert.ok(normalizeMenuSearch('Sub-threshold').includes(normalizeMenuSearch('sub t')));
  assert.equal(normalizeMenuSearch('  Race–specific  '),'race specific');
+});
+
+
+test('sub-threshold formats expose native timed and distance alternatives at every event',()=>{
+ for(const goal of ['all','mile','5k','10k','half','marathon']){
+  const sub=workoutsForMenu(WORKOUTS,goal,'sub');
+  assert.equal(sub.filter(w=>matchesSubthresholdFormat(w,'minutes')).length,20);
+  assert.equal(sub.filter(w=>matchesSubthresholdFormat(w,'distance')).length,15);
+  assert.equal(sub.filter(w=>matchesSubthresholdFormat(w,'all')).length,35);
+  assert.ok(sub.every(w=>workoutFormat(w)!=='mixed'));
+ }
+ assert.ok(matchesSubthresholdFormat(get('v1'),'distance'));
+ assert.equal(prescription(get('s1'),'km'),'10 × 3 min');
+ assert.equal(prescription(get('sd14'),'km'),'2 × 5 km');
+ assert.equal(prescription(get('sd14'),'mi'),'2 × 3.107 mi');
+});
+test('long sub-threshold presets end at 5 km per rep and count rests only between reps',()=>{
+ for(const w of WORKOUTS.filter(w=>w.category==='sub'))for(const b of workoutBlocks(w))if(b.meters)assert.ok(b.meters<=5000,w.id);
+ assert.equal(metrics('sd14').workMeters,10000);assert.equal(metrics('sd14').recoverySeconds,180);
+ assert.equal(metrics('sd15').workMeters,15000);assert.equal(metrics('sd15').recoverySeconds,360);
+ assert.equal(metrics('st17').qualitySeconds,2400);assert.equal(metrics('st17').recoverySeconds,360);
+ assert.equal(recoveryLabel(get('sd14'),'km'),'3:00 walk/easy jog');
+});
+test('fixed-distance sub-threshold doses reflect current fitness without silently changing reps',()=>{
+ const w=get('s5'),slow=workoutMetrics(w,20),faster=workoutMetrics(w,50);
+ assert.equal(slow.workMeters,6000);assert.equal(faster.workMeters,6000);
+ assert.ok(slow.qualitySeconds>faster.qualitySeconds);
+ assert.equal(workoutLoad(w,slow),'Demanding');assert.equal(workoutLoad(w,faster),'Standard');
+ assert.equal(workoutLoad(get('sd15'),workoutMetrics(get('sd15'),95)),'Demanding');
+ assert.equal(workoutMetrics(get('s1'),20).qualitySeconds,1800);
+ assert.equal(workoutMetrics(get('s1'),75).qualitySeconds,1800);
+ assert.equal(workoutLoad(get('v1'),workoutMetrics(get('v1'),20)),get('v1').level);
+});
+test('compact repetitions and distance searches match displayed recipes',()=>{
+ assert.equal(normalizeMenuSearch('10x3 min'),normalizeMenuSearch('10 × 3 min'));
+ assert.equal(normalizeMenuSearch('2x5km'),normalizeMenuSearch(prescription(get('sd14'),'km')));
 });
